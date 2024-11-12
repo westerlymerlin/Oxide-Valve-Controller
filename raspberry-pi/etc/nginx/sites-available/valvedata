@@ -3,7 +3,7 @@ server {
 	listen [::]:80;
 
     root /var/www/html;
-    server_name Valvehost.local;
+    server_name valvehost.local;
     
 	location /static {
         alias /home/pi/static;}

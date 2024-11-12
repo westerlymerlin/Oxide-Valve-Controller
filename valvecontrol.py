@@ -140,7 +140,8 @@ def parsecontrol(item, command):
 def valveopen(valveid):
     """Open the valve specified"""
     valve = [valve for valve in valves if valve['id'] == valveid]
-    if valve['excluded'] > 0 and GPIO.input([valvex for valvex in valves if valvex['id'] == valve[0]['excluded']][0]['gpio']) == 1:
+    print(valve)
+    if valve[0]['excluded'] > 0 and GPIO.input([valvex for valvex in valves if valvex['id'] == valve[0]['excluded']][0]['gpio']) == 1:
         logger.warning('cannot open valve as the excluded one is also open valve %s', valveid)
     else:
         GPIO.output(valve[0]['gpio'], 1)
