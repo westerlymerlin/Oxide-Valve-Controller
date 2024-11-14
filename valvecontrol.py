@@ -11,7 +11,7 @@ from logmanager import logger
 logger.info('Application starting')
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-channellist = [17, 27, 22, 9, 11, 13, 19, 26, 18, 23, 24, 12, 16, 20, 21]
+channellist = [17, 18, 27, 22, 23, 24, 9, 11, 12, 13, 19, 16, 26, 20, 21]
 GPIO.setup(channellist, GPIO.OUT)
 
 valves = [
