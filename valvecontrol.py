@@ -115,7 +115,7 @@ def parsecontrol(item, command):
     try:
         if item[:5] == 'valve':
             valve = int(item[5:])
-            if 0 < valve < 14:
+            if 0 < valve < 16:
                 if command == 'open':
                     valveopen(valve)
                 elif command == 'close':
