@@ -24,79 +24,79 @@ valves = [
     {
         'id': 2,
         'gpio': channellist[1],
-        'description': '4He pipette input',
+        'description': 'Ar tank pipette input',
         'excluded': 3
     },
     {
         'id': 3,
         'gpio': channellist[2],
-        'description': '4He pipette output',
+        'description': 'Ar tank pipette output',
         'excluded': 2
     },
     {
         'id': 4,
         'gpio': channellist[3],
-        'description': 'Ne pipette input',
+        'description': 'Ne tank pipette input',
         'excluded': 5
     },
     {
         'id': 5,
         'gpio': channellist[4],
-        'description': 'Ne pipette output',
+        'description': 'Ne tank pipette output',
         'excluded': 4
     },
     {
         'id': 6,
         'gpio': channellist[5],
-        'description': 'Ar pipette input',
+        'description': '4He Q tank pipette input',
         'excluded': 7
     },
     {
         'id': 7,
         'gpio': channellist[6],
-        'description': 'Ne pipette output',
+        'description': '4He Q tank pipette output',
         'excluded': 6
     },
     {
         'id': 8,
         'gpio': channellist[7],
-        'description': 'turbo to Cold Finger',
-        'excluded': 0
+        'description': '3He spike tank pipette input',
+        'excluded': 9
     },
     {
         'id': 9,
         'gpio': channellist[8],
-        'description': 'sample to manifold',
-        'excluded': 0
+        'description': '3He spike tank pipette output',
+        'excluded': 8
     },
     {
         'id': 10,
         'gpio': channellist[9],
-        'description': 'turbo to manifold',
+        'description': 'turbo to cryotrap',
         'excluded': 0
     },
     {
         'id': 11,
         'gpio': channellist[10],
-        'description': 'SRS RGA',
+        'description': 'input to manifold',
         'excluded': 0
     },
     {
         'id': 12,
         'gpio': channellist[11],
-        'description': 'ion pump',
+        'description': 'turbo to manifold',
         'excluded': 0
     },
     {
         'id': 13,
         'gpio': channellist[12],
-        'description': 'spare',
+        'description': 'ion pump',
         'excluded': 0
     },
     {
         'id': 14,
         'gpio': channellist[13],
-        'description': 'spare',
+        'description': 'SRS RGA',
         'excluded': 0
     },
     {
