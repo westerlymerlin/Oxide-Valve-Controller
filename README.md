@@ -5,20 +5,24 @@
 
 `app.py`			    Flask application that manages the API 
 
-----------------------------------------------------
-
 `valvecontrol.py`		pyton GPIO routine for setting up and managng valves
 
-`README.pdf`		software description and details how to setup on a Raspberry Pi
+<br><br>
 
+---
 ### JSON Commands
- 
-`{'status', '1'}` Return the ststus of all valves
 
-`{'valveN', 'open'}` Open valve N
+| JSON | Description |                                                                      
+|---|---|
+| `{'status', '1'}`      | Return the status of all valves                                                                            |
+| `{'valveN', 'open'}`   | Open valve N |
+| `{'valveN', 'close'}` | lose valve N |
+| `{'closeallvalves', 1}`  | close all valves and pipettes |
 
-`{'valveN', 'close'}` Close valve N
 
-`{'closeallvalves', 1}` close all valves and pipettes   
+<br><br>
 
-`{'restart', 'pi'}` Restart the raspberry pi after a 15 second delay   
+---
+Full documentation can be found in the file: [README.pdf](./README.pdf)
+
+Change log can be found in the file [changelog.txt](./changelog.txt)
