@@ -13,6 +13,7 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 channellist = [17, 18, 27, 22, 23, 24, 9, 11, 12, 13, 19, 16, 26, 20, 21]
 GPIO.setup(channellist, GPIO.OUT)
+GPIO.output(channellist, 0)
 
 valves = [
     {
