@@ -90,13 +90,13 @@ valves = [
     {
         'id': 13,
         'gpio': channellist[12],
-        'description': 'ion pump',
+        'description': 'SRS RGA',
         'excluded': 0
     },
     {
         'id': 14,
         'gpio': channellist[13],
-        'description': 'SRS RGA',
+        'description': 'Ion Pump',
         'excluded': 0
     },
     {
