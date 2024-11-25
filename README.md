@@ -5,7 +5,7 @@
 
 `app.py`			    Flask application that manages the API 
 
-`valvecontrol.py`		pyton GPIO routine for setting up and managng valves
+`valvecontrol.py`		python GPIO routine for setting up and managing 24v solonoid valves
 
 <br><br>
 
