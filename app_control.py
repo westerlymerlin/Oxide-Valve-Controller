@@ -12,6 +12,7 @@ def initialise():
     """Setup the settings structure with default values"""
     isettings = {'LastSave': '01/01/2000 00:00:01',
                  'api-key': 'change-me',
+                 'app-name': 'Oxide Line Valve Controller',
                  'logfilepath': './logs/valvecontroller.log',
                  'logappname': 'Valve-Controller-Py',
                  'loglevel': 'INFO',

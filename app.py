@@ -40,7 +40,7 @@ def index():
     """Main web status page"""
     cputemperature = read_cpu_temperature()
     return render_template('index.html', valves=httpstatus(), cputemperature=cputemperature,
-                           version=VERSION, threads=threadlister())
+                           version=VERSION, appname=settings['app-name'], threads=threadlister())
 
 
 @app.route('/api', methods=['POST'])
@@ -70,7 +70,7 @@ def showplogs():
     cputemperature = read_cpu_temperature()
     logs = read_log_from_file(settings['logfilepath'])
     return render_template('logs.html', rows=logs, log='Valve-Control log',
-                           cputemperature=cputemperature, version=VERSION)
+                           cputemperature=cputemperature, appname=settings['app-name'], version=VERSION)
 
 
 @app.route('/guaccesslog')
@@ -79,7 +79,7 @@ def showgalogs():
     cputemperature = read_cpu_temperature()
     logs = read_log_from_file(settings['gunicornpath'] + 'gunicorn-access.log')
     return render_template('logs.html', rows=logs, log='Gunicorn Access Log',
-                           cputemperature=cputemperature, version=VERSION)
+                           cputemperature=cputemperature, appname=settings['app-name'], version=VERSION)
 
 
 @app.route('/guerrorlog')
@@ -88,7 +88,7 @@ def showgelogs():
     cputemperature = read_cpu_temperature()
     logs = read_log_from_file(settings['gunicornpath'] + 'gunicorn-error.log')
     return render_template('logs.html', rows=logs, log='Gunicorn Error Log',
-                           cputemperature=cputemperature, version=VERSION)
+                           cputemperature=cputemperature, appname=settings['app-name'], version=VERSION)
 
 
 @app.route('/syslog')
@@ -100,7 +100,7 @@ def showslogs():
     logs = log.split('\n')
     logs.reverse()
     return render_template('logs.html', rows=logs, log='System Log', cputemperature=cputemperature,
-                           version=VERSION)
+                           version=VERSION, appname=settings['app-name'])
 
 
 
