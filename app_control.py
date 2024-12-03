@@ -6,7 +6,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.0.6'
+VERSION = '1.1.0'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -17,7 +17,21 @@ def initialise():
                  'logappname': 'Valve-Controller-Py',
                  'loglevel': 'INFO',
                  'gunicornpath': './logs/',
-                 'cputemp': '/sys/class/thermal/thermal_zone0/temp'}
+                 'cputemp': '/sys/class/thermal/thermal_zone0/temp',
+                 'ion-length': 16,
+                 'ion-port': '/dev/ttyUSB1',
+                 'ion-speed': 9600,
+                 'ion-start': 9,
+                 'ion-string1': 'fiAwNSAwQiAwMA0=',  # base64 encoded
+                 'ion-units': 'mbar',
+                 'turbo-length': 16,
+                 'turbo-port': '/dev/ttyUSB0',
+                 'turbo-speed': 9600,
+                 'turbo-start': 5,
+                 'turbo-string1': 'UFIxDQ==',  # base64 encoded
+                 'turbo-string2': 'BQ==',  # base64 encoded
+                 'turbo-units': 'mbar',
+                 }
     return isettings
 
 
