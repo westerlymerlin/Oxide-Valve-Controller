@@ -6,6 +6,8 @@ from threading import Timer
 import os
 from RPi import GPIO
 from logmanager import logger
+from app_control import settings
+from pumpclass import PumpClass
 
 
 logger.info('Application starting')
@@ -114,6 +116,8 @@ def parsecontrol(item, command):
     messages to the correct function"""
     # print('%s : %s' % (item, command))
     try:
+        if item == 'valvestatus':
+            return valvestatus()
         if item[:5] == 'valve':
             valve = int(item[5:])
             if 0 < valve < 16:
@@ -125,13 +129,19 @@ def parsecontrol(item, command):
                     logger.warning('bad valve command')
             else:
                 logger.warning('bad valve number')
-        elif item == 'closeallvalves':
+            return valvestatus()
+        if item == 'closeallvalves':
             allclose()
-        elif item == 'restart':
+            return valvestatus()
+        if item == 'getpressures':
+            return pressures()
+        if item == 'restart':
             if command == 'pi':
                 logger.warning('Restart command recieved: system will restart in 15 seconds')
                 timerthread = Timer(15, reboot)
                 timerthread.start()
+            return {'status': 'rebooting'}
+        return {'status': 'bad request'}
     except ValueError:
         logger.warning('incorrect json message')
     except IndexError:
@@ -191,5 +201,36 @@ def reboot():
     """API call to reboot the Raspberry Pi"""
     logger.warning('System is restarting now')
     os.system('sudo reboot')
+
+def pressures():
+    """API call: return all guage pressures as a json message"""
+    pressure = [{'pump': 'turbo', 'pressure': turbopump.read(), 'units': settings['turbo-units']},
+                {'pump': 'ion', 'pressure': ionpump.read(), 'units': settings['ion-units']}]
+    return pressure
+
+
+def http_pump():
+    """Web page info"""
+    if turbopump.portready == 0:
+        turbovalue = 'Port not available'
+    elif turbopump.value == '':
+        turbovalue = 'Pump not connected'
+    else:
+        turbovalue = turbopump.value
+    if ionpump.portready == 0:
+        ionvalue = 'Port not available'
+    elif ionpump.value == '':
+        ionvalue = 'Pump not connected'
+    else:
+        ionvalue = ionpump.value
+    return [{'pump': 'turbo', 'pressure': turbovalue, 'units': settings['turbo-units']},
+                {'pump': 'ion', 'pressure': ionvalue, 'units': settings['ion-units']}]
+
+
+
+turbopump = PumpClass('Turbo Pump', settings['turbo-port'], settings['turbo-speed'], settings['turbo-start'],
+                      settings['turbo-length'], settings['turbo-string1'], settings['turbo-string2'])
+ionpump = PumpClass('Ion Pump', settings['ion-port'], settings['ion-speed'], settings['ion-start'],
+                    settings['ion-length'], settings['ion-string1'])
 
 logger.info('Application ready')

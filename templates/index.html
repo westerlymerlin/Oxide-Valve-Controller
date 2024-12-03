@@ -35,6 +35,13 @@
                     <td class="tabledataleft">{{valve['status']}}</td>
             </tr>
          {% endfor %}
+         {% for pressure in pressures %}
+            <tr>
+                    <td class="tabledataleft">{{pressure['pump']}}</td>
+                    <td class="tabledataleft">{{pressure['pressure']}}</td>
+                    <td class="tabledataleft">{{pressure['units']}}</td>
+            </tr>
+         {% endfor %}
          {% for thread in threads %}
              <tr>
                     <td class="tabledataleft">Thread</td>

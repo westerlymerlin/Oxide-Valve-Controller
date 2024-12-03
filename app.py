@@ -5,7 +5,7 @@ import subprocess
 from threading import enumerate as enumerate_threads
 from flask import Flask, render_template, jsonify, request
 from logmanager import  logger
-from valvecontrol import httpstatus, valvestatus, parsecontrol
+from valvecontrol import httpstatus, http_pump, parsecontrol
 from app_control import settings, VERSION
 
 logger.info('Starting Valve Controller web app version %s', VERSION)
@@ -39,8 +39,9 @@ def threadlister():
 def index():
     """Main web status page"""
     cputemperature = read_cpu_temperature()
-    return render_template('index.html', valves=httpstatus(), cputemperature=cputemperature,
-                           version=VERSION, appname=settings['app-name'], threads=threadlister())
+    return render_template('index.html', valves=httpstatus(), pressures=http_pump(),
+                           cputemperature=cputemperature, version=VERSION, appname=settings['app-name'],
+                           threads=threadlister())
 
 
 @app.route('/api', methods=['POST'])
@@ -53,8 +54,7 @@ def api():
             if request.headers['Api-Key'] == settings['api-key']:  # check for correct API key
                 item = request.json['item']
                 command = request.json['command']
-                parsecontrol(item, command)
-                return jsonify(valvestatus()), 201
+                return jsonify(parsecontrol(item, command)), 201
             logger.warning('API: access attempt using an invalid token')
             return 'access token(s) unuthorised', 401
         logger.warning('API: access attempt without a token')
