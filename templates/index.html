@@ -37,9 +37,9 @@
          {% endfor %}
          {% for pressure in pressures %}
             <tr>
-                    <td class="tabledataleft">{{pressure['pump']}}</td>
-                    <td class="tabledataleft">{{pressure['pressure']}}</td>
-                    <td class="tabledataleft">{{pressure['units']}}</td>
+                    <td class="tabledataleft">Pump Pressure</td>
+                    <td class="tabledataleft">{{pressure['pump']}} pump</td>
+                    <td class="tabledataleft">{{pressure['pressure']}} ({{pressure['units']}})</td>
             </tr>
          {% endfor %}
          {% for thread in threads %}
