@@ -13,7 +13,7 @@ from pumpclass import PumpClass
 logger.info('Application starting')
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-channellist = [17, 18, 27, 22, 23, 24, 9, 11, 12, 13, 19, 16, 26, 20, 21]
+channellist = [23, 22, 27, 18, 17, 13, 12, 11, 9, 24, 21, 20, 26, 16, 19]
 GPIO.setup(channellist, GPIO.OUT)
 GPIO.output(channellist, 0)
 
