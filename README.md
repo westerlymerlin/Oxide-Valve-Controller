@@ -16,7 +16,7 @@
 
 | JSON                       | Description                              |                                                                      
 |----------------------------|------------------------------------------|
-| `{'valvestatus', '1'}`    | Return the status of all valves          |
+| `{'valvestatus', '1'}`     | Return the status of all valves          |
 | `{'valveN', 'open'}`       | Open valve N                             |
 | `{'valveN', 'close'}`      | lose valve N                             |
 | `{'closeallvalves', 1}`    | close all valves and pipettes            |
