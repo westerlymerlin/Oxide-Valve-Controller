@@ -7,17 +7,20 @@
 
 `valvecontrol.py`		python GPIO routine for setting up and managing 24v solonoid valves
 
+`pumpclass.py`		python routine for reading gauge pressures via RS232 ports
+
 <br><br>
 
 ---
 ### JSON Commands
 
-| JSON | Description |                                                                      
-|---|---|
-| `{'status', '1'}`      | Return the status of all valves                                                                            |
-| `{'valveN', 'open'}`   | Open valve N |
-| `{'valveN', 'close'}` | lose valve N |
-| `{'closeallvalves', 1}`  | close all valves and pipettes |
+| JSON                       | Description                              |                                                                      
+|----------------------------|------------------------------------------|
+| `{'valvestatus', '1'}`    | Return the status of all valves          |
+| `{'valveN', 'open'}`       | Open valve N                             |
+| `{'valveN', 'close'}`      | lose valve N                             |
+| `{'closeallvalves', 1}`    | close all valves and pipettes            |
+| `{'getpressures', 'read'}` | read pressures from turbo and ion gauges |
 
 
 <br><br>
