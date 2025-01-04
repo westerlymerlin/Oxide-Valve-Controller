@@ -8,7 +8,7 @@ from logmanager import  logger
 from valvecontrol import httpstatus, http_pump, parsecontrol
 from app_control import settings, VERSION
 
-logger.info('Starting Valve Controller web app version %s', VERSION)
+logger.info('Starting %s web app version %s', settings['app-name'], VERSION)
 logger.info('Api-Key = %s', settings['api-key'])
 app = Flask(__name__)
 
