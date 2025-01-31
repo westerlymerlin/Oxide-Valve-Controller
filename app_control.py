@@ -6,7 +6,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.1.3'
+VERSION = '1.1.4'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -22,14 +22,13 @@ def initialise():
                  'ion-port': '/dev/ttyUSB1',
                  'ion-speed': 9600,
                  'ion-start': 9,
-                 'ion-string1': 'fiAwNSAwQiAwMA0=',  # base64 encoded
+                 'ion-string': 'fiAwNSAwQiAwMA0=',  # base64 encoded
                  'ion-units': 'mbar',
                  'turbo-length': 16,
                  'turbo-port': '/dev/ttyUSB0',
                  'turbo-speed': 9600,
                  'turbo-start': 5,
-                 'turbo-string1': 'UFIxDQ==',  # base64 encoded
-                 'turbo-string2': 'BQ==',  # base64 encoded
+                 'turbo-string': 'MDAxMDA3NDAwMj0/MTA2XDAxMw==',  # base64 encoded
                  'turbo-units': 'mbar',
                  }
     return isettings
@@ -58,6 +57,13 @@ def readsettings():
         print('File not found')
         return {}
 
+def updatesetting(newsetting): # must be a dict object
+    """Update the settings with the new values"""
+    global settings
+    if isinstance(newsetting, dict):
+        for item in newsetting.keys():
+            settings[item] = newsetting[item]
+        writesettings()
 
 def loadsettings():
     """Replace the default settings with thsoe from the json files"""
