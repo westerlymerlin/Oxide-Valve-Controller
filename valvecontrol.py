@@ -6,7 +6,7 @@ from threading import Timer
 import os
 from RPi import GPIO
 from logmanager import logger
-from app_control import settings
+from app_control import settings, updatesetting
 from pumpclass import PumpClass
 
 
@@ -135,6 +135,10 @@ def parsecontrol(item, command):
             return valvestatus()
         if item == 'getpressures':
             return pressures()
+        if item == 'setting':
+            logger.warning('Setting changed via api - %s', command)
+            updatesetting(command)
+            return settings
         if item == 'restart':
             if command == 'pi':
                 logger.warning('Restart command recieved: system will restart in 15 seconds')
@@ -229,8 +233,8 @@ def http_pump():
 
 
 turbopump = PumpClass('Turbo Pump', settings['turbo-port'], settings['turbo-speed'], settings['turbo-start'],
-                      settings['turbo-length'], settings['turbo-string1'], settings['turbo-string2'])
+                      settings['turbo-length'], settings['turbo-string'])
 ionpump = PumpClass('Ion Pump', settings['ion-port'], settings['ion-speed'], settings['ion-start'],
-                    settings['ion-length'], settings['ion-string1'])
+                    settings['ion-length'], settings['ion-string'])
 
 logger.info('Application ready')
