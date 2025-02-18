@@ -8,6 +8,7 @@ from RPi import GPIO
 from logmanager import logger
 from app_control import settings, updatesetting
 from pumpclass import PumpClass
+from rs485class import Rs485class
 
 
 logger.info('Application starting')
@@ -148,8 +149,10 @@ def parsecontrol(item, command):
         return {'status': 'bad request'}
     except ValueError:
         logger.warning('incorrect json message')
+        return {'status': 'incorrect json message'}
     except IndexError:
         logger.warning('bad valve number')
+        return {'status': 'bad valve number'}
 
 
 def valveopen(valveid):
@@ -206,9 +209,33 @@ def reboot():
     logger.warning('System is restarting now')
     os.system('sudo reboot')
 
+
+def get_turbo_gauge_pressure():
+    """API call: return the turbo gauge pressure as a JSON message."""
+
+    def calculate_turbo_pressure(value):
+        """Calculate the turbo gauge pressure based on the value string."""
+        base_pressure = float(value[:4]) / 1000
+        exponent = int(value[4:]) - 20
+        return base_pressure * (10 ** exponent)
+
+    # Extract relevant pressure data
+    pressure_data = next(
+        (item for item in turbopump.read() if item['name'] == 'Turbo Gauge Pressure'),
+        None
+    )
+
+    if pressure_data:
+        turbo_pressure_value = calculate_turbo_pressure(pressure_data['value'])
+        turbo_pressure_units = pressure_data['units']
+        return {'turbo': turbo_pressure_value, 'turbounits': turbo_pressure_units}
+    return {}
+
+
 def pressures():
     """API call: return all guage pressures as a json message"""
-    pressure = [{'pump': 'turbo', 'pressure': turbopump.read(), 'units': settings['turbo-units']},
+    turbodata = get_turbo_gauge_pressure()
+    pressure = [{'pump': 'turbo', 'pressure': turbodata['turbo'], 'units': turbodata['turbounits']},
                 {'pump': 'ion', 'pressure': ionpump.read(), 'units': settings['ion-units']}]
     return pressure
 
@@ -217,23 +244,30 @@ def http_pump():
     """Web page info"""
     if turbopump.portready == 0:
         turbovalue = 'Port not available'
-    elif turbopump.value == '':
+        turbounits = ''
+    elif not turbopump.read():
         turbovalue = 'Pump not connected'
+        turbounits = ''
     else:
-        turbovalue = turbopump.value
+        turbodata = get_turbo_gauge_pressure()
+        turbovalue = '%.4E' % turbodata['turbo']
+        turbounits = '(%s)' % turbodata['turbounits']
     if ionpump.portready == 0:
         ionvalue = 'Port not available'
+        ionunits = ''
     elif ionpump.value == '':
         ionvalue = 'Pump not connected'
+        ionunits = ''
     else:
         ionvalue = ionpump.value
-    return [{'pump': 'turbo', 'pressure': turbovalue, 'units': settings['turbo-units']},
-                {'pump': 'ion', 'pressure': ionvalue, 'units': settings['ion-units']}]
+        ionunits = '(%s)' % settings['ion-units']
+    return [{'pump': 'turbo', 'pressure': turbovalue, 'units': turbounits},
+                {'pump': 'ion', 'pressure': ionvalue, 'units': ionunits}]
 
 
 
-turbopump = PumpClass('Turbo Pump', settings['turbo-port'], settings['turbo-speed'], settings['turbo-start'],
-                      settings['turbo-length'], settings['turbo-string'])
+turbopump = Rs485class(settings['RS485-port'], settings['RS485-speed'], settings['RS485-interval'],
+                       settings['RS485-readlength'], settings['RS485-readings'])
 ionpump = PumpClass('Ion Pump', settings['ion-port'], settings['ion-speed'], settings['ion-start'],
                     settings['ion-length'], settings['ion-string'])
 

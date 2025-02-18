@@ -6,7 +6,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.1.4'
+VERSION = '1.2.0'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -24,13 +24,14 @@ def initialise():
                  'ion-start': 9,
                  'ion-string': 'fiAwNSAwQiAwMA0=',  # base64 encoded
                  'ion-units': 'mbar',
-                 'turbo-length': 16,
-                 'turbo-port': '/dev/ttyUSB0',
-                 'turbo-speed': 9600,
-                 'turbo-start': 5,
-                 'turbo-string': 'MDAxMDA3NDAwMj0/MTA2XDAxMw==',  # base64 encoded
-                 'turbo-units': 'mbar',
-                 }
+                 'RS485-readlength': 400,
+                 'RS485-port': '/dev/ttyUSB0',
+                 'RS485-speed': 9600,
+                 'RS485-interval': 5,
+                 'RS485-readings': [
+                     {'name': 'Turbo Gauge Pressure', 'string': '0011074006', 'length': 7, 'units': 'hPa'},
+                     {'name': 'Turbo Gauge Model', 'string': '0011034906', 'length': 7, 'units': ''},
+                 ]}
     return isettings
 
 
