@@ -30,12 +30,12 @@ class Rs485class:
             self.port.open()
             logger.info("RS485Class: RS485 port %s ok", port)
             self.portready = 1
-
-        except serial.serialutil.SerialException:
-            logger.error("RS485Class: error opening port %s", port)
             timerthread = Timer(1, self.rs485_reader)
             timerthread.name = 'RS422 %s' % port
             timerthread.start()
+        except serial.serialutil.SerialException:
+            logger.error("RS485Class: error opening port %s", port)
+
 
 
 
