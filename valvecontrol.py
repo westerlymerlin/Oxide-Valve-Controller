@@ -246,7 +246,7 @@ def http_pump():
         turbovalue = 'Port not available'
         turbounits = ''
     elif not turbopump.read():
-        turbovalue = 'Pump not connected'
+        turbovalue = 'No Data Returned'
         turbounits = ''
     else:
         turbodata = get_turbo_gauge_pressure()

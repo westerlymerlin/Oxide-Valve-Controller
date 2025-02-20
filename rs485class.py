@@ -4,6 +4,7 @@ RS485 reader class, uses pyserial to read instrumentation data
 from time import sleep
 from threading import Timer
 import serial  # from pyserial
+from app_control import settings
 from logmanager import logger
 
 
@@ -45,6 +46,8 @@ class Rs485class:
                 if self.portready == 1:
                     self.port.reset_input_buffer()
                     databack = str(self.port.read(size=self.readlength), 'utf-8')
+                    if settings['RS485-debug']:
+                        logger.info('RS485Class: Read "%s"', databack)
                     self.data = []
                     for item in self.readings:
                         name = item['name']

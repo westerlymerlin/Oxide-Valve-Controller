@@ -6,7 +6,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.2.0'
+VERSION = '1.2.1'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -28,6 +28,7 @@ def initialise():
                  'RS485-port': '/dev/ttyUSB0',
                  'RS485-speed': 9600,
                  'RS485-interval': 5,
+                 'RS485-debug': False,
                  'RS485-readings': [
                      {'name': 'Turbo Gauge Pressure', 'string': '0011074006', 'length': 7, 'units': 'hPa'},
                      {'name': 'Turbo Gauge Model', 'string': '0011034906', 'length': 7, 'units': ''},
