@@ -6,7 +6,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.2.1'
+VERSION = '1.2.2'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -19,13 +19,13 @@ def initialise():
                  'gunicornpath': './logs/',
                  'cputemp': '/sys/class/thermal/thermal_zone0/temp',
                  'ion-length': 16,
-                 'ion-port': '/dev/ttyUSB1',
+                 'ion-port': '/dev/ttyUSB0',
                  'ion-speed': 9600,
                  'ion-start': 9,
                  'ion-string': 'fiAwNSAwQiAwMA0=',  # base64 encoded
                  'ion-units': 'mbar',
                  'RS485-readlength': 400,
-                 'RS485-port': '/dev/ttyUSB0',
+                 'RS485-port': '/dev/ttyUSB1',
                  'RS485-speed': 9600,
                  'RS485-interval': 5,
                  'RS485-debug': False,

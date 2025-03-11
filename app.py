@@ -5,7 +5,7 @@ import subprocess
 from threading import enumerate as enumerate_threads
 from flask import Flask, render_template, jsonify, request
 from logmanager import  logger
-from valvecontrol import httpstatus, http_pump, parsecontrol
+from valvecontrol import httpstatus, http_pump, parsecontrol, statusmessage
 from app_control import settings, VERSION
 
 logger.info('Starting %s web app version %s', settings['app-name'], VERSION)
@@ -42,6 +42,13 @@ def index():
     return render_template('index.html', valves=httpstatus(), pressures=http_pump(),
                            cputemperature=cputemperature, version=VERSION, appname=settings['app-name'],
                            threads=threadlister())
+
+@app.route('/statusdata', methods=['GET'])
+def statusdata():
+    """Status data read by javascript on default website"""
+    ctrldata = statusmessage()
+    ctrldata['cputemperature'] = read_cpu_temperature()
+    return jsonify(ctrldata), 201
 
 
 @app.route('/api', methods=['POST'])
