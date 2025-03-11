@@ -49,6 +49,7 @@ class PumpClass:
         while True:
             try:
                 if self.portready == 1:
+                    self.port.reset_input_buffer()
                     if self.string1:
                         self.port.write(self.string1)
                         sleep(0.5)
@@ -56,7 +57,7 @@ class PumpClass:
                         self.port.write(self.string2)
                     databack = self.port.read(size=100)
                     self.value = str(databack, 'utf-8')[self.start:self.length]
-                    logger.info('Pump Return "%s" from %s', self.value, self.name)
+                    logger.debug('Pump Return "%s" from %s', self.value, self.name)
                 else:
                     self.value = 0
             except:

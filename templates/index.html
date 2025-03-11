@@ -9,10 +9,57 @@
 <link href="{{ url_for('static',filename='css/text.css') }}" rel="stylesheet" type="text/css">
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
-<body>
+<body onload="getstatusdata()">
+<script>
+
+setInterval(getstatusdata, 1000);
+
+async function getstatusdata() {
+  const response = await fetch("/statusdata");
+  const statusdata = await response.json();
+  var idtoupdate = document.getElementById('cpu-status');
+  idtoupdate.innerHTML = statusdata.cputemperature;
+  var idtoupdate = document.getElementById('valve1-status');
+  idtoupdate.innerHTML = statusdata.valve1;
+  var idtoupdate = document.getElementById('valve2-status');
+  idtoupdate.innerHTML = statusdata.valve2;
+  var idtoupdate = document.getElementById('valve3-status');
+  idtoupdate.innerHTML = statusdata.valve3;
+  var idtoupdate = document.getElementById('valve4-status');
+  idtoupdate.innerHTML = statusdata.valve4;
+  var idtoupdate = document.getElementById('valve5-status');
+  idtoupdate.innerHTML = statusdata.valve5;
+  var idtoupdate = document.getElementById('valve6-status');
+  idtoupdate.innerHTML = statusdata.valve6;
+  var idtoupdate = document.getElementById('valve7-status');
+  idtoupdate.innerHTML = statusdata.valve7;
+  var idtoupdate = document.getElementById('valve8-status');
+  idtoupdate.innerHTML = statusdata.valve8;
+  var idtoupdate = document.getElementById('valve9-status');
+  idtoupdate.innerHTML = statusdata.valve9;
+  var idtoupdate = document.getElementById('valve10-status');
+  idtoupdate.innerHTML = statusdata.valve10;
+  var idtoupdate = document.getElementById('valve11-status');
+  idtoupdate.innerHTML = statusdata.valve11;
+  var idtoupdate = document.getElementById('valve12-status');
+  idtoupdate.innerHTML = statusdata.valve12;
+  var idtoupdate = document.getElementById('valve13-status');
+  idtoupdate.innerHTML = statusdata.valve13;
+  var idtoupdate = document.getElementById('valve14-status');
+  idtoupdate.innerHTML = statusdata.valve14;
+  var idtoupdate = document.getElementById('valve15-status');
+  idtoupdate.innerHTML = statusdata.valve15;
+  var idtoupdate = document.getElementById('turbo-status');
+  idtoupdate.innerHTML = statusdata.turbo;
+  var idtoupdate = document.getElementById('ion-status');
+  idtoupdate.innerHTML = statusdata.ion;
+ }
+
+</script>
+
 	  <section class="banner">
 		  <div >
-              <P class="logo">London Geochronology Centre - {{appname}} - Server Status &nbsp CPU {{cputemperature}}&deg;C</P>
+              <P class="logo">London Geochronology Centre - {{appname}} - Server Status &nbsp CPU <strong id="cpu-status">awaiting-data</strong>&deg;C</P>
               <p class="breadcrumbtext"><a href = "/" class="breadcrumblink">Return to index</a> &nbsp|&nbsp
               <a href = "/pylog" class="breadcrumblink">Application Log</a> &nbsp|&nbsp
               <a href = "/guaccesslog" class="breadcrumblink">Website Access Log</a> &nbsp|&nbsp
@@ -32,14 +79,14 @@
             <tr>
                     <td class="tabledataleft">Valve {{valve['id']}}</td>
                     <td class="tabledataleft">{{valve['description']}}</td>
-                    <td class="tabledataleft">{{valve['status']}}</td>
+                    <td class="tabledataleft" id="valve{{valve['id']}}-status">awaiting data</td>
             </tr>
          {% endfor %}
          {% for pressure in pressures %}
             <tr>
                     <td class="tabledataleft">Pump Pressure</td>
                     <td class="tabledataleft">{{pressure['pump']}} pump</td>
-                    <td class="tabledataleft">{{pressure['pressure']}} {{pressure['units']}}</td>
+                    <td class="tabledataleft" id="{{pressure['pump']}}-status">awaiting data</td>
             </tr>
          {% endfor %}
          {% for thread in threads %}

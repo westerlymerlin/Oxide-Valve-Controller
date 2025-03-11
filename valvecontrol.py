@@ -194,6 +194,8 @@ def valvestatus():
     return statuslist
 
 
+
+
 def httpstatus():
     """Statud message formetted for the web status page"""
     statuslist = []
@@ -202,6 +204,30 @@ def httpstatus():
             statuslist.append({'id': valve['id'], 'description': valve['description'],
                                'status': status(GPIO.input(valve['gpio']))})
     return statuslist
+
+def statusmessage():
+    """Return the status of all valves as a jason message"""
+    statuslist = {}
+    for valve in valves:
+        if valve['id'] > 0:
+            statuslist['valve%s' % valve['id']] = status(GPIO.input(valve['gpio']))
+    if turbopump.portready == 0:
+        turbovalue = 'Port not available'
+    elif not turbopump.read():
+        turbovalue = 'No Data Returned'
+    else:
+        turbodata = get_turbo_gauge_pressure()
+        turbovalue = '%.4E (%s)' % (turbodata['turbo'], turbodata['turbounits'])
+    if ionpump.portready == 0:
+        ionvalue = 'Port not available'
+    elif ionpump.value == '':
+        ionvalue = 'Pump not connected'
+    else:
+        ionvalue = '%.4E (%s)' % (ionpump.value, settings['ion-units'])
+    statuslist['turbo'] = turbovalue
+    statuslist['ion'] = ionvalue
+    return statuslist
+
 
 
 def reboot():
