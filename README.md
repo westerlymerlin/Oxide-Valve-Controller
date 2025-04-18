@@ -3,13 +3,11 @@
 ### Valve controller is a python app that can operate 24v valves and is controlled via an HTTP API
 
 
-`app.py`			    Flask application that manages the API 
+Application dcumentaton can be found in [readme.pdf](./readme.pdf)
 
-`valvecontrol.py`		python GPIO routine for setting up and managing 24v solonoid valves
+Python module documentation can be found in the folder: [docs](./docs/readme.md)
 
-`pumpclass.py`		python routine for reading gauge pressures via RS232 ports
-
-<br><br>
+Change log can be found in the file [changelog.txt](./changelog.txt)
 
 ---
 ### JSON Commands
@@ -23,9 +21,3 @@
 | `{'getpressures', 'read'}` | read pressures from turbo and ion gauges |
 
 
-<br><br>
-
----
-Full documentation can be found in the file: [README.pdf](./README.pdf)
-
-Change log can be found in the file [changelog.txt](./changelog.txt)
