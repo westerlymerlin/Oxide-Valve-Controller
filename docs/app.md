@@ -30,7 +30,15 @@
 
 # app
 
-This is the main flask application - called by Gunicorn
+Flask web application for valve control system monitoring and management.
+
+Provides web interface and REST API endpoints for:
+- Valve status monitoring and control
+- System statistics (CPU temperature, running threads)
+- Log viewing (application, Gunicorn, and system logs)
+- Real-time status updates
+
+API access requires authentication via API key header.
 
 <a id="app.subprocess"></a>
 
