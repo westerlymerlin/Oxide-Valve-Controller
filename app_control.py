@@ -1,6 +1,15 @@
+
 """
-Settings module, reads the settings from a settings.json file. If it does not exist or a new setting
-has appeared it will creat from the defaults in the initialise function.
+Application control and configuration management.
+
+Handles core application settings and version control for the valve control system.
+Centralizes configuration management including:
+- API authentication settings
+- Application identification
+- File paths and system locations
+- Runtime configuration parameters
+
+Configuration is loaded at module import time and remains constant during runtime.
 """
 import random
 import json

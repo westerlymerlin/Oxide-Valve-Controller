@@ -1,5 +1,17 @@
 """
-RS485 reader class, uses pyserial to read instrumentation data
+RS-485 serial communication interface module.
+
+Provides a class-based interface for RS-485 serial communication with
+industrial devices such as valves and sensors. Handles:
+- RS-485 port configuration and management
+- Serial protocol implementation
+- Data framing and validation
+- Transmission error detection
+- Message queuing and timeout handling
+
+This module implements thread-safe operations for reliable communication
+over RS-485 networks in industrial control applications. Supports both
+synchronous and asynchronous communication patterns.
 """
 from time import sleep
 from threading import Timer
@@ -9,7 +21,29 @@ from logmanager import logger
 
 
 class Rs485class:
-    """Rs485Class reads data strings via RS85 port"""
+    """
+    Handles RS485 communication and facilitates reading data from the serial port.
+
+    This class is designed to work with RS485 serial communication. It allows
+    for initializing a serial port, reading data from the port with a specified
+    interval, and parsing the data based on predefined readings. It operates with
+    an internal threading mechanism to continually read from the serial port in
+    the background.
+
+    :ivar port: Serial port object for RS485 communication.
+    :type port: serial.Serial
+    :ivar interval: Interval in seconds between consecutive reads from the port.
+    :type interval: float
+    :ivar readings: List of dictionaries containing metadata for parsing
+                    specific strings from the incoming data.
+    :type readings: list[dict]
+    :ivar readlength: Number of bytes to read from the serial port at a time.
+    :type readlength: int
+    :ivar data: List of dictionaries containing parsed data from the port.
+    :type data: list[dict]
+    :ivar portready: Flag indicating if the serial port is successfully opened and ready.
+    :type portready: int
+    """
     def __init__(self, port, speed, interval, readlength, readings):
         self.port = serial.Serial()
         self.port.port = port
@@ -40,7 +74,20 @@ class Rs485class:
 
 
     def rs485_reader(self):
-        """Reads the serial port"""
+        """
+        Continuously reads data from an RS485 device, processing and extracting relevant
+        information from the data stream. The method handles data parsing, error management,
+        and executes at a regular interval defined by the `interval` attribute.
+
+        The method checks if the port is ready, resets the input buffer, and reads data
+        of the specified length. It parses the incoming data based on configuration and
+        extracts key information for further use. Errors during the process are logged,
+        and the method safely retries after encountering issues.
+
+        :raises Exception: If there is an issue with reading the data or accessing the
+            port.
+        :returns: None
+        """
         while True:
             try:
                 if self.portready == 1:

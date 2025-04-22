@@ -3,7 +3,7 @@
 ### Valve controller is a python app that can operate 24v valves and is controlled via an HTTP API
 
 
-Application dcumentaton can be found in [readme.pdf](./readme.pdf)
+Application dcumentaton can be found in [manual.pdf](./manual.pdf)
 
 Python module documentation can be found in the folder: [docs](./docs/readme.md)
 

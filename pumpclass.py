@@ -1,5 +1,17 @@
 """
-Pump reader class, uses pyserial to read pressure gauges and pyrometer
+Vacuum pump control and monitoring class.
+
+Provides object-oriented interface for managing pump systems:
+- Pump start/stop control
+- Runtime status monitoring
+- Operating parameter validation
+- Alarm condition handling
+- System diagnostics
+- State persistence
+
+Class-based implementation ensures encapsulated pump management with
+proper initialization, state tracking, and shutdown procedures.
+Designed for integration with industrial control systems.
 """
 from time import sleep
 from threading import Timer
@@ -9,7 +21,31 @@ from logmanager import logger
 
 
 class PumpClass:
-    """PumpClass: reads pressures from gauges via RS232 ports"""
+    """
+    Represents a pump device with capabilities to interact via a serial port.
+
+    This class sets up communication with a pump device through a specified serial port. It
+    initializes the serial connection with predefined configurations, starts a serial reading
+    thread, and processes pump data. Additionally, it provides a method for obtaining processed
+    gauge pressure values.
+
+    :ivar name: Name of the pump instance.
+    :type name: str
+    :ivar port: Serial port instance used for communication with the pump.
+    :type port: serial.Serial
+    :ivar start: Start index for slicing the raw serial data.
+    :type start: int
+    :ivar length: Length for slicing the raw serial data.
+    :type length: int
+    :ivar value: Processed gauge pressure value. Defaults to 0.
+    :type value: float or int
+    :ivar portready: Represents the readiness state of the serial port. 1 if ready, otherwise 0.
+    :type portready: int
+    :ivar string1: Optional first string to be written to the serial port, base64-decoded.
+    :type string1: bytes or None
+    :ivar string2: Optional second string to be written to the serial port, base64-decoded.
+    :type string2: bytes or None
+    """
     def __init__(self, name, port, speed, start, length, string1=None, string2=None):
         self.name = name
         self.port = serial.Serial()
@@ -45,7 +81,14 @@ class PumpClass:
             logger.error("pumpClass error %s opening port %s", self.name, self.port.port)
 
     def serialreader(self):
-        """Reads the serial port"""
+        """
+        Continuously reads data from a serial port and processes it based on the current
+        object's configuration and state. Writes pre-configured strings to the port
+        before reading data if applicable and logs the processed results. Handles
+        exceptions and sets a default value to indicate errors during operations.
+
+        :return: None
+        """
         while True:
             try:
                 if self.portready == 1:

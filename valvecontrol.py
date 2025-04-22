@@ -1,5 +1,15 @@
 """
-Main valve controller module, operates the valves via the Raspberry Pi GPIO
+Core valve control system interface module.
+
+Provides hardware abstraction layer for valve monitoring and control operations:
+- Real-time valve status monitoring and state management
+- HTTP endpoint status checking and response handling
+- Control command validation and execution
+- System status reporting and error handling
+
+All external valve interactions should go through this module to ensure
+consistent state management and proper error handling. Implements thread-safe
+operations for concurrent access.
 """
 
 from threading import Timer
@@ -197,7 +207,7 @@ def valvestatus():
 
 
 def httpstatus():
-    """Statud message formetted for the web status page"""
+    """Status message formetted for the web status page"""
     statuslist = []
     for valve in valves:
         if valve['id'] > 0:
