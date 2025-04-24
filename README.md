@@ -1,23 +1,26 @@
 # UCL-Oxide-Valve-Controller
 
-### Valve controller is a python app that can operate 24v valves and is controlled via an HTTP API
+## Overview
 
+A Python application that controls 24V valves through an HTTP API interface. This controller allows for remote operation
+of valve systems in laboratory environments.
 
-Application dcumentaton can be found in [manual.pdf](./manual.pdf)
+## Documentation
 
-Python module documentation can be found in the folder: [docs](./docs/readme.md)
+- **User Manual**: Detailed usage instructions can be found in [manual.pdf](./manual.pdf)
+- **API Documentation**: Python module documentation is available in the [docs](./docs/readme.md) folder
+- **Change Log**: Track version changes in the [changelog.txt](./changelog.txt) file
 
-Change log can be found in the file [changelog.txt](./changelog.txt)
+## API Commands
 
----
-### JSON Commands
+The controller accepts the following JSON commands:
 
-| JSON                       | Description                              |                                                                      
-|----------------------------|------------------------------------------|
-| `{'valvestatus', '1'}`     | Return the status of all valves          |
-| `{'valveN', 'open'}`       | Open valve N                             |
-| `{'valveN', 'close'}`      | lose valve N                             |
-| `{'closeallvalves', 1}`    | close all valves and pipettes            |
-| `{'getpressures', 'read'}` | read pressures from turbo and ion gauges |
+| JSON Command | Description |
+|-------------|-------------|
+| `{"valvestatus": "1"}` | Return the status of all valves |
+| `{"valveN": "open"}` | Open valve N (replace N with valve number) |
+| `{"valveN": "close"}` | Close valve N (replace N with valve number) |
+| `{"closeallvalves": 1}` | Close all valves and pipettes |
+| `{"getpressures": "read"}` | Read pressures from turbo and ion gauges |
 
 
