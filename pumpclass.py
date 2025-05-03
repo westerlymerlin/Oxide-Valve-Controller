@@ -22,28 +22,33 @@ from logmanager import logger
 
 class PumpClass:
     """
-    Represents a pump device with capabilities to interact via a serial port.
+    Represents a pump with serial communication capabilities, allowing for continuous
+    monitoring and data processing. The pump is initialized with various configuration
+    parameters, and its state is maintained via the serial connection. The class is
+    designed to continuously read data from the serial port, handle exceptions, and
+    maintain an internal value.
 
-    This class sets up communication with a pump device through a specified serial port. It
-    initializes the serial connection with predefined configurations, starts a serial reading
-    thread, and processes pump data. Additionally, it provides a method for obtaining processed
-    gauge pressure values.
+    This class encapsulates serial port configuration, controls, and management for
+    interfacing with a pump device. It enables data writing, reading, and logging while
+    ensuring resilience to communication errors.
 
-    :ivar name: Name of the pump instance.
+    :ivar name: Name of the pump.
     :type name: str
-    :ivar port: Serial port instance used for communication with the pump.
+    :ivar port: Serial port object configured for the pump.
     :type port: serial.Serial
-    :ivar start: Start index for slicing the raw serial data.
+    :ivar start: Starting position for slicing the read data.
     :type start: int
-    :ivar length: Length for slicing the raw serial data.
+    :ivar length: Length of the data slice to extract from the read data.
     :type length: int
-    :ivar value: Processed gauge pressure value. Defaults to 0.
-    :type value: float or int
-    :ivar portready: Represents the readiness state of the serial port. 1 if ready, otherwise 0.
+    :ivar commsdebug: Debug flag for logging detailed communication info.
+    :type commsdebug: bool
+    :ivar value: Extracted and processed data from the pump.
+    :type value: int or str
+    :ivar portready: Readiness state of the serial port (1 for ready, 0 otherwise).
     :type portready: int
-    :ivar string1: Optional first string to be written to the serial port, base64-decoded.
+    :ivar string1: Decoded pre-configured first string to write to the port.
     :type string1: bytes or None
-    :ivar string2: Optional second string to be written to the serial port, base64-decoded.
+    :ivar string2: Decoded pre-configured second string to write to the port.
     :type string2: bytes or None
     """
     def __init__(self, name, port, speed, start, length, string1=None, string2=None):
@@ -57,6 +62,7 @@ class PumpClass:
         self.port.stopbits = serial.STOPBITS_ONE
         self.port.bytesize = serial.EIGHTBITS
         # self.port.set_buffer_size(4096, 4096)
+        self.commsdebug = False
         self.port.timeout = 1
         self.value = 0
         self.portready = 0
@@ -99,6 +105,8 @@ class PumpClass:
                     if self.string2:
                         self.port.write(self.string2)
                     databack = self.port.read(size=100)
+                    if self.commsdebug:
+                        logger.info('Pump %s Read: "%s"', self.name, databack)
                     self.value = str(databack, 'utf-8')[self.start:self.length]
                     logger.debug('Pump Return "%s" from %s', self.value, self.name)
                 else:
