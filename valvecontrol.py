@@ -150,6 +150,9 @@ def parsecontrol(item, command):
             logger.warning('Setting changed via api - %s', command)
             updatesetting(command)
             return settings
+        if item == 'ion-debug':
+            ionpump.commsdebug = command
+            return {'status': 'ion-debug set to %s' % command}
         if item == 'restart':
             if command == 'pi':
                 logger.warning('Restart command recieved: system will restart in 15 seconds')
