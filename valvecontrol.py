@@ -146,9 +146,11 @@ def parsecontrol(item, command):
             return valvestatus()
         if item == 'getpressures':
             return pressures()
-        if item == 'setting':
-            logger.warning('Setting changed via api - %s', command)
+        if item == 'updatesetting':
+            logger.warning('parsecontrol Setting changed via api - %s', command)
             updatesetting(command)
+            return settings
+        if item == 'getsettings':
             return settings
         if item == 'ion-debug':
             ionpump.commsdebug = command
