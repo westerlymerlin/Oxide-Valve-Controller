@@ -238,7 +238,7 @@ def statusmessage():
     elif ionpump.value == '':
         ionvalue = 'Pump not connected'
     else:
-        ionvalue = '%.4E (%s)' % (ionpump.value, settings['ion-units'])
+        ionvalue = '%.4E (%s)' % (ionpump.read(), settings['ion-units'])
     statuslist['turbo'] = turbovalue
     statuslist['ion'] = ionvalue
     return statuslist
