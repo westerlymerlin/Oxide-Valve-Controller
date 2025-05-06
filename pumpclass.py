@@ -117,7 +117,18 @@ class PumpClass:
             sleep(5)
 
     def read(self):
-        """Return the gauge pressure"""
+        """
+        Reads and converts the stored value to a floating-point number.
+
+        This method attempts to parse the stored `value` attribute as a
+        floating-point number. If the value is an empty string, it will
+        return 0. If the conversion to a floating-point number fails,
+        it will also return 0.
+
+        :return: Returns the converted floating-point number from the
+                 value attribute or 0 if the conversion fails.
+        :rtype: float
+        """
         if self.value == '':
             return 0
         try:
