@@ -31,7 +31,7 @@ def initialise():
                  'ion-port': '/dev/ttyUSB0',
                  'ion-speed': 9600,
                  'ion-start': 9,
-                 'ion-string': 'fiAwNSAwQiAwMA0=',  # base64 encoded
+                 'ion-string': 'fiAwMSAwQiAzMw0K',  # base64 encoded, pump id 01
                  'ion-units': 'mbar',
                  'RS485-readlength': 400,
                  'RS485-port': '/dev/ttyUSB1',

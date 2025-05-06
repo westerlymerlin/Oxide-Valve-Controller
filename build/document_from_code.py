@@ -1,4 +1,5 @@
 """Gerates documentation from comments in the code
+Coded to run in a github action against the master branch
 uses:
 pydoc-markdown to generate the documentation
 """
@@ -9,8 +10,8 @@ from pydoc_markdown.contrib.loaders.python import PythonLoader
 from pydoc_markdown.contrib.renderers.markdown import MarkdownRenderer
 from app_control import settings, VERSION
 
-DOCSPATH = '../docs'
-SEARCHPATHS = ['../ui', '../']
+DOCSPATH = './docs'
+SEARCHPATHS = ['../', '../ui/¬']
 SKIPNAMES = ['ui_layout_', 'main_rc', 'RPi', 'test', 'venv']
 
 def checkmodule(name):
@@ -24,6 +25,12 @@ def checkmodule(name):
 
 def create_docs():
     """Create the documents for the project"""
+    print('docs path = %s' % DOCSPATH)
+    print('search paths = %s' % SEARCHPATHS)
+    print('files in current directory')
+    files = os.listdir(os.curdir)
+    for item in files:
+        print(item)
     print('Creating documentation')
     if not os.path.exists(DOCSPATH):
         os.makedirs(DOCSPATH)
@@ -47,6 +54,7 @@ def create_docs():
             renderer.process([module], None)
             renderer.render([module])
     linedata.sort()
+    print("Generating readme.md file in docs folder")
     with open( DOCSPATH + '/readme.md', 'w', encoding='utf8') as outfile:
         print('# Module Documentation\n\n', file=outfile)
         print('This document contains the documentation for all the modules in the **%s** version %s application.\n\n---\n'
@@ -63,7 +71,10 @@ def create_docs():
             print(line_item, file=outfile)
         print('\n---\n', file=outfile)
     outfile.close()
-
+    print('files in current directory')
+    files = os.listdir(DOCSPATH)
+    for item in files:
+        print(item)
 
 if __name__ == '__main__':
     create_docs()
