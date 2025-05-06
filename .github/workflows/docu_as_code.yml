@@ -33,6 +33,12 @@ jobs:
         git config user.email "DocUCode@westerlymerlin.internal"
         git config user.name "DocUCode"
         git add ./docs/*.md
-        git commit --message "DocUCode Automated documentation from code"
+        if git diff --cached --name-only | grep --quiet md
+        then
+          git commit --message "DocUCode Automated documentation from code"
+          git push --force origin master
+          exit 0
+        fi
+        echo "No docs have been updated, skipping commits"
       env:
-        GH_TOKEN: ${{ secrets.ACTIONSECRET }}
+        GITHUB_PAT: ${{ secrets.ACTIONSECRET }}
