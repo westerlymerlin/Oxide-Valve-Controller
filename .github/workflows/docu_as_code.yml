@@ -30,15 +30,9 @@ jobs:
         python -m build.document_from_code
     - name: Commit changes to the master branch
       run: |
-        SRC_PATTERN="./docs/*.md"
         git config user.email "DocUCode@westerlymerlin.internal"
         git config user.name "DocUCode"
-        git add SRC_PATTERN
-        if git diff --cached --name-only | grep --quiet "$SRC_PATTERN"
-        then
-          echo "No changed documentation to update"
-          exit 0
-        fi
+        git add ./docs/*.md
         git commit --message "DocUCode Automated documentation from code"
         git push origin master
       env:
