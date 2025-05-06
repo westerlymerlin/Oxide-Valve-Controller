@@ -34,6 +34,6 @@ jobs:
         git config user.name "DocUCode"
         git add ./docs/*.md
         git commit --message "DocUCode Automated documentation from code"
-        git push origin master
+        git push origin master --force
       env:
         GH_TOKEN: ${{ secrets.ACTIONSECRET }}
