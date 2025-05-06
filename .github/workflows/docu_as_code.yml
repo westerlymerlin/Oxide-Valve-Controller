@@ -36,9 +36,9 @@ jobs:
         if git diff --cached --name-only | grep --quiet md
         then
           git commit --message "DocUCode Automated documentation from code"
-          git push --force origin master
+          git push origin master
           exit 0
         fi
         echo "No docs have been updated, skipping commits"
       env:
-        GITHUB_PAT: ${{ secrets.ACTIONSECRET }}
+        GH_TOKEN: ${{ secrets.ACTIONSECRET }}
