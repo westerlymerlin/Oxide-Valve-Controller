@@ -35,8 +35,7 @@ jobs:
         git add ./docs/*.md
         if git diff --cached --name-only | grep --quiet md
         then
-          git commit --message "DocUCode Automated documentation from code"
-          git push --force origin master
+          git push
           exit 0
         fi
         echo "No docs have been updated, skipping commits"
