@@ -155,6 +155,8 @@ def parsecontrol(item, command):
         if item == 'ion-debug':
             ionpump.commsdebug = command
             return {'status': 'ion-debug set to %s' % command}
+        if item == 'ion-command':
+            return ionpump.access_pump(command)
         if item == 'restart':
             if command == 'pi':
                 logger.warning('Restart command recieved: system will restart in 15 seconds')
@@ -277,7 +279,7 @@ def pressures():
     """API call: return all guage pressures as a json message"""
     turbodata = get_turbo_gauge_pressure()
     pressure = [{'pump': 'turbo', 'pressure': turbodata['turbo'], 'units': turbodata['turbounits']},
-                {'pump': 'ion', 'pressure': ionpump.read(), 'units': settings['ion-units']}]
+                {'pump': 'ion', 'pressure': ionpump.read(), 'units': ionpump.units}]
     return pressure
 
 
@@ -300,16 +302,15 @@ def http_pump():
         ionvalue = 'Pump not connected'
         ionunits = ''
     else:
-        ionvalue = ionpump.value
-        ionunits = '(%s)' % settings['ion-units']
+        ionvalue = ionpump.read()
+        ionunits = '(%s)' % ionpump.units
     return [{'pump': 'turbo', 'pressure': turbovalue, 'units': turbounits},
                 {'pump': 'ion', 'pressure': ionvalue, 'units': ionunits}]
 
 
 
-turbopump = Rs485class(settings['RS485-port'], settings['RS485-speed'], settings['RS485-interval'],
-                       settings['RS485-readlength'], settings['RS485-readings'])
-ionpump = PumpClass('Ion Pump', settings['ion-port'], settings['ion-speed'], settings['ion-start'],
-                    settings['ion-length'], settings['ion-string'])
+turbopump = Rs485class(settings['rS485-port'], settings['rS485-speed'], settings['rS485-interval'],
+                       settings['rS485-readlength'], settings['rS485-messages'])
+ionpump = PumpClass('Ion Pump', settings['ion-port'], settings['ion-speed'], settings['ion-messages'])
 
 logger.info('Application ready')

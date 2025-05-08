@@ -69,7 +69,7 @@ the background.
 :type port: serial.Serial
 :ivar interval: Interval in seconds between consecutive reads from the port.
 :type interval: float
-:ivar readings: List of dictionaries containing metadata for parsing
+:ivar messages: List of dictionaries containing metadata for parsing
                 specific strings from the incoming data.
 :type readings: list[dict]
 :ivar readlength: Number of bytes to read from the serial port at a time.
@@ -84,7 +84,7 @@ the background.
 #### \_\_init\_\_
 
 ```python
-def __init__(port, speed, interval, readlength, readings)
+def __init__(port, speed, interval, readlength, messages)
 ```
 
 <a id="rs485class.Rs485class.rs485_reader"></a>

@@ -8,7 +8,8 @@
   * [logger](#pumpclass.logger)
   * [PumpClass](#pumpclass.PumpClass)
     * [\_\_init\_\_](#pumpclass.PumpClass.__init__)
-    * [serialreader](#pumpclass.PumpClass.serialreader)
+    * [pressurereader](#pumpclass.PumpClass.pressurereader)
+    * [access\_pump](#pumpclass.PumpClass.access_pump)
     * [read](#pumpclass.PumpClass.read)
 
 <a id="pumpclass"></a>
@@ -57,57 +58,65 @@ Designed for integration with industrial control systems.
 class PumpClass()
 ```
 
-Represents a pump with serial communication capabilities, allowing for continuous
-monitoring and data processing. The pump is initialized with various configuration
-parameters, and its state is maintained via the serial connection. The class is
-designed to continuously read data from the serial port, handle exceptions, and
-maintain an internal value.
+Represents a serial communication interface for interacting with a pump.
 
-This class encapsulates serial port configuration, controls, and management for
-interfacing with a pump device. It enables data writing, reading, and logging while
-ensuring resilience to communication errors.
+This class facilitates communication with a pump device over a serial port. It is designed
+to initialize the connection, handle exceptions during operations, and perform tasks such
+as writing to the port or reading data from it. It includes functionalities to process
+configured messages, monitor the state of the device, and retrieve or parse its data.
 
-:ivar name: Name of the pump.
+:ivar name: The name associated with the pump instance.
 :type name: str
-:ivar port: Serial port object configured for the pump.
+:ivar port: The serial port used for pump communication.
 :type port: serial.Serial
-:ivar start: Starting position for slicing the read data.
-:type start: int
-:ivar length: Length of the data slice to extract from the read data.
-:type length: int
-:ivar commsdebug: Debug flag for logging detailed communication info.
+:ivar messages: A list of pre-configured message dictionaries for operation requests.
+:type messages: list[dict]
+:ivar commsdebug: A flag for enabling or disabling detailed communication logging.
 :type commsdebug: bool
-:ivar value: Extracted and processed data from the pump.
-:type value: int or str
-:ivar portready: Readiness state of the serial port (1 for ready, 0 otherwise).
+:ivar value: The current value retrieved or processed from the pump's response.
+:type value: str or int
+:ivar portready: Indicates the readiness of the serial port. 1 if ready, 0 otherwise.
 :type portready: int
-:ivar string1: Decoded pre-configured first string to write to the port.
-:type string1: bytes or None
-:ivar string2: Decoded pre-configured second string to write to the port.
-:type string2: bytes or None
 
 <a id="pumpclass.PumpClass.__init__"></a>
 
 #### \_\_init\_\_
 
 ```python
-def __init__(name, port, speed, start, length, string1=None, string2=None)
+def __init__(name, port, speed, messages)
 ```
 
-<a id="pumpclass.PumpClass.serialreader"></a>
+<a id="pumpclass.PumpClass.pressurereader"></a>
 
-#### serialreader
+#### pressurereader
 
 ```python
-def serialreader()
+def pressurereader()
 ```
 
-Continuously reads data from a serial port and processes it based on the current
-object's configuration and state. Writes pre-configured strings to the port
-before reading data if applicable and logs the processed results. Handles
-exceptions and sets a default value to indicate errors during operations.
+Reads and updates the pressure value and its units from an external pump
+device at regular intervals of 5 seconds, provided the port is ready for
+operation. Fetches the pressure data using an external method and updates
+corresponding instance attributes.
 
-:return: None
+<a id="pumpclass.PumpClass.access_pump"></a>
+
+#### access\_pump
+
+```python
+def access_pump(req_type)
+```
+
+Accesses a pump device, sends a request, and retrieves the corresponding response based
+on the specified request type. The function interacts with hardware through a communication
+port and processes the returned data to extract useful information.
+
+:param req_type: The name of the request type to access on the pump.
+:type req_type: str
+:return: A dictionary containing the result of the pump access operation. The dictionary
+    may either indicate the success of the request or include specific response data
+    based on the length and type of the response.
+:rtype: dict
 
 <a id="pumpclass.PumpClass.read"></a>
 
@@ -117,5 +126,14 @@ exceptions and sets a default value to indicate errors during operations.
 def read()
 ```
 
-Return the gauge pressure
+Reads and converts the stored value to a floating-point number.
+
+This method attempts to parse the stored `value` attribute as a
+floating-point number. If the value is an empty string, it will
+return 0. If the conversion to a floating-point number fails,
+it will also return 0.
+
+:return: Returns the converted floating-point number from the
+         value attribute or 0 if the conversion fails.
+:rtype: float
 

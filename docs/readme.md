@@ -1,7 +1,7 @@
 # Module Documentation
 
 
-This document contains the documentation for all the modules in the **Oxide Line Valve Controller** version 1.2.4 application.
+This document contains the documentation for all the modules in the **Oxide Line Valve Controller** version 1.3.0 application.
 
 ---
 

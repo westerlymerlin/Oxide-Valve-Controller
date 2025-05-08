@@ -15,7 +15,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.2.5'
+VERSION = '1.3.0'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -27,18 +27,25 @@ def initialise():
                  'loglevel': 'INFO',
                  'gunicornpath': './logs/',
                  'cputemp': '/sys/class/thermal/thermal_zone0/temp',
+                 'ion-messages': [
+                     {'name': 'pressure', 'string': 'fiAwMSAwQiAzMw0K', 'start': 9, 'length': 16, 'units': 'torr'},
+                     {'name': 'units', 'string': 'fiAwMSAwRSAzNg0K', 'start': 0, 'length': 16, 'units': ''},
+                     {'name': 'status', 'string': 'fiAwMSAwRCAzNQ0K', 'start': 0, 'length': 16, 'units': ''},
+                     {'name': 'start', 'string': 'fiAwMSAzNyAyQg0K', 'start': 0, 'length': 0, 'units': ''},
+                     {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0K', 'start': 0, 'length': 0, 'units': ''}
+                 ],
                  'ion-length': 16,
                  'ion-port': '/dev/ttyUSB0',
                  'ion-speed': 9600,
                  'ion-start': 9,
                  'ion-string': 'fiAwMSAwQiAzMw0K',  # base64 encoded, pump id 01
                  'ion-units': 'mbar',
-                 'RS485-readlength': 400,
-                 'RS485-port': '/dev/ttyUSB1',
-                 'RS485-speed': 9600,
-                 'RS485-interval': 5,
-                 'RS485-debug': False,
-                 'RS485-readings': [
+                 'rS485-readlength': 400,
+                 'rS485-port': '/dev/ttyUSB1',
+                 'rS485-speed': 9600,
+                 'rS485-interval': 5,
+                 'rS485-debug': False,
+                 'rS485-messages': [
                      {'name': 'Turbo Gauge Pressure', 'string': '0011074006', 'length': 7, 'units': 'hPa'},
                      {'name': 'Turbo Gauge Model', 'string': '0011034906', 'length': 7, 'units': ''},
                  ]}
