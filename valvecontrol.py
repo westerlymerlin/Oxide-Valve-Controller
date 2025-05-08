@@ -309,8 +309,8 @@ def http_pump():
 
 
 
-turbopump = Rs485class(settings['rS485-port'], settings['rS485-speed'], settings['rS485-interval'],
-                       settings['rS485-readlength'], settings['rS485-messages'])
+turbopump = Rs485class(settings['rs485-port'], settings['rs485-speed'], settings['rs485-interval'],
+                       settings['rs485-readlength'], settings['rs485-messages'])
 ionpump = PumpClass('Ion Pump', settings['ion-port'], settings['ion-speed'], settings['ion-messages'])
 
 logger.info('Application ready')
