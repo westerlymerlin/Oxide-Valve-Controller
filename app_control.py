@@ -33,12 +33,8 @@ def initialise():
                      {'name': 'start', 'string': 'fiAwMSAzNyAyQg0K', 'start': 0, 'length': 0, 'units': ''},
                      {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0K', 'start': 0, 'length': 0, 'units': ''}
                  ],
-                 'ion-length': 16,
                  'ion-port': '/dev/ttyUSB0',
                  'ion-speed': 9600,
-                 'ion-start': 9,
-                 'ion-string': 'fiAwMSAwQiAzMw0K',  # base64 encoded, pump id 01
-                 'ion-units': 'mbar',
                  'rs485-readlength': 400,
                  'rs485-port': '/dev/ttyUSB1',
                  'rs485-speed': 9600,
