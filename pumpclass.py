@@ -22,42 +22,32 @@ from logmanager import logger
 
 class PumpClass:
     """
-    Represents a pump with serial communication capabilities, allowing for continuous
-    monitoring and data processing. The pump is initialized with various configuration
-    parameters, and its state is maintained via the serial connection. The class is
-    designed to continuously read data from the serial port, handle exceptions, and
-    maintain an internal value.
+    Represents a serial communication interface for interacting with a pump.
 
-    This class encapsulates serial port configuration, controls, and management for
-    interfacing with a pump device. It enables data writing, reading, and logging while
-    ensuring resilience to communication errors.
+    This class facilitates communication with a pump device over a serial port. It is designed
+    to initialize the connection, handle exceptions during operations, and perform tasks such
+    as writing to the port or reading data from it. It includes functionalities to process
+    configured messages, monitor the state of the device, and retrieve or parse its data.
 
-    :ivar name: Name of the pump.
+    :ivar name: The name associated with the pump instance.
     :type name: str
-    :ivar port: Serial port object configured for the pump.
+    :ivar port: The serial port used for pump communication.
     :type port: serial.Serial
-    :ivar start: Starting position for slicing the read data.
-    :type start: int
-    :ivar length: Length of the data slice to extract from the read data.
-    :type length: int
-    :ivar commsdebug: Debug flag for logging detailed communication info.
+    :ivar messages: A list of pre-configured message dictionaries for operation requests.
+    :type messages: list[dict]
+    :ivar commsdebug: A flag for enabling or disabling detailed communication logging.
     :type commsdebug: bool
-    :ivar value: Extracted and processed data from the pump.
-    :type value: int or str
-    :ivar portready: Readiness state of the serial port (1 for ready, 0 otherwise).
+    :ivar value: The current value retrieved or processed from the pump's response.
+    :type value: str or int
+    :ivar portready: Indicates the readiness of the serial port. 1 if ready, 0 otherwise.
     :type portready: int
-    :ivar string1: Decoded pre-configured first string to write to the port.
-    :type string1: bytes or None
-    :ivar string2: Decoded pre-configured second string to write to the port.
-    :type string2: bytes or None
     """
-    def __init__(self, name, port, speed, start, length, string1=None, string2=None):
+    def __init__(self, name, port, speed, messages):
         self.name = name
         self.port = serial.Serial()
         self.port.port = port
         self.port.baudrate = speed
-        self.start = start
-        self.length = length
+        self.messages = messages
         self.port.parity = serial.PARITY_NONE
         self.port.stopbits = serial.STOPBITS_ONE
         self.port.bytesize = serial.EIGHTBITS
@@ -65,56 +55,74 @@ class PumpClass:
         self.commsdebug = False
         self.port.timeout = 1
         self.value = 0
+        self.units = ''
         self.portready = 0
-        if string1 is None:
-            self.string1 = None
-        else:
-            self.string1 = b64decode(string1)
-        if string2 is None:
-            self.string2 = None
-        else:
-            self.string2 = b64decode(string2)
         logger.info('Initialising %s pump on port %s', self.name, self.port.port)
         try:
             self.port.close()
             self.port.open()
             logger.info("%s port %s ok", self.name, self.port.port)
             self.portready = 1
-            timerthread = Timer(1, self.serialreader)
+            timerthread = Timer(1, self.pressurereader)
             timerthread.name = self.name
             timerthread.start()
         except serial.serialutil.SerialException:
             logger.error("pumpClass error %s opening port %s", self.name, self.port.port)
 
-    def serialreader(self):
+    def pressurereader(self):
         """
-        Continuously reads data from a serial port and processes it based on the current
-        object's configuration and state. Writes pre-configured strings to the port
-        before reading data if applicable and logs the processed results. Handles
-        exceptions and sets a default value to indicate errors during operations.
-
-        :return: None
+        Reads and updates the pressure value and its units from an external pump
+        device at regular intervals of 5 seconds, provided the port is ready for
+        operation. Fetches the pressure data using an external method and updates
+        corresponding instance attributes.
         """
         while True:
-            try:
-                if self.portready == 1:
-                    self.port.reset_input_buffer()
-                    if self.string1:
-                        self.port.write(self.string1)
-                        sleep(0.5)
-                    if self.string2:
-                        self.port.write(self.string2)
-                    databack = self.port.read(size=100)
-                    if self.commsdebug:
-                        logger.info('Pump %s Read: "%s"', self.name, databack)
-                    self.value = str(databack, 'utf-8')[self.start:self.length]
-                    logger.debug('Pump Return "%s" from %s', self.value, self.name)
-                else:
-                    self.value = 0
-            except:
-                logger.exception('Pump Error on %s: %s', self.name, Exception)
-                self.value = 0
+            if self.portready == 1:
+                pressures = self.access_pump('pressure')
+                self.value = pressures['pressure']
+                self.units = pressures['units']
             sleep(5)
+
+    def access_pump(self, req_type):
+        """
+        Accesses a pump device, sends a request, and retrieves the corresponding response based
+        on the specified request type. The function interacts with hardware through a communication
+        port and processes the returned data to extract useful information.
+
+        :param req_type: The name of the request type to access on the pump.
+        :type req_type: str
+        :return: A dictionary containing the result of the pump access operation. The dictionary
+            may either indicate the success of the request or include specific response data
+            based on the length and type of the response.
+        :rtype: dict
+        """
+        message = {}
+        for item in self.messages:
+            if req_type == item['name']:
+                units = item['units']
+                length = item['length']
+                start = item['start']
+                string1 = b64decode(item['string'])
+                try:
+                    if self.portready == 1:
+                        self.port.reset_input_buffer()
+                        if string1:
+                            self.port.write(string1)
+                            sleep(0.5)
+                        databack = self.port.read(size=100)
+                        if self.commsdebug:
+                            logger.info('Pump %s %s: "%s"', self.name, req_type, databack)
+                        if length > 0:
+                            message = {req_type: 1}
+                        else:
+                            message = {req_type: str(databack, 'utf-8')[start:length], 'units: ': units}
+                    else:
+                        message = {req_type: 0}
+                except:
+                    logger.exception('Pump Error on %s: %s', self.name, Exception)
+                    message = {req_type: 0}
+        return message
+
 
     def read(self):
         """
