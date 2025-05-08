@@ -34,7 +34,7 @@ class Rs485class:
     :type port: serial.Serial
     :ivar interval: Interval in seconds between consecutive reads from the port.
     :type interval: float
-    :ivar readings: List of dictionaries containing metadata for parsing
+    :ivar messages: List of dictionaries containing metadata for parsing
                     specific strings from the incoming data.
     :type readings: list[dict]
     :ivar readlength: Number of bytes to read from the serial port at a time.
@@ -44,12 +44,12 @@ class Rs485class:
     :ivar portready: Flag indicating if the serial port is successfully opened and ready.
     :type portready: int
     """
-    def __init__(self, port, speed, interval, readlength, readings):
+    def __init__(self, port, speed, interval, readlength, messages):
         self.port = serial.Serial()
         self.port.port = port
         self.port.baudrate = speed
         self.interval = interval
-        self.readings = readings
+        self.messages = messages
         self.readlength = readlength
         self.port.parity = serial.PARITY_NONE
         self.port.stopbits = serial.STOPBITS_ONE
@@ -93,10 +93,10 @@ class Rs485class:
                 if self.portready == 1:
                     self.port.reset_input_buffer()
                     databack = str(self.port.read(size=self.readlength), 'utf-8')
-                    if settings['RS485-debug']:
+                    if settings['rs485-debug']:
                         logger.info('RS485Class: Read "%s"', databack)
                     self.data = []
-                    for item in self.readings:
+                    for item in self.messages:
                         name = item['name']
                         units = item['units']
                         findstring = item['string']
