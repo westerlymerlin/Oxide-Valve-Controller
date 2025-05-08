@@ -40,12 +40,12 @@ def initialise():
                  'ion-start': 9,
                  'ion-string': 'fiAwMSAwQiAzMw0K',  # base64 encoded, pump id 01
                  'ion-units': 'mbar',
-                 'rS485-readlength': 400,
-                 'rS485-port': '/dev/ttyUSB1',
-                 'rS485-speed': 9600,
-                 'rS485-interval': 5,
-                 'rS485-debug': False,
-                 'rS485-messages': [
+                 'rs485-readlength': 400,
+                 'rs485-port': '/dev/ttyUSB1',
+                 'rs485-speed': 9600,
+                 'rs485-interval': 5,
+                 'rs485-debug': False,
+                 'rs485-messages': [
                      {'name': 'Turbo Gauge Pressure', 'string': '0011074006', 'length': 7, 'units': 'hPa'},
                      {'name': 'Turbo Gauge Model', 'string': '0011034906', 'length': 7, 'units': ''},
                  ]}
