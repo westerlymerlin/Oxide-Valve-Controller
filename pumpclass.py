@@ -64,7 +64,7 @@ class PumpClass:
             logger.info("%s port %s ok", self.name, self.port.port)
             self.portready = 1
             timerthread = Timer(1, self.pressurereader)
-            timerthread.name = self.name
+            timerthread.name = 'Ion %s' % port
             timerthread.start()
         except serial.serialutil.SerialException:
             logger.error("pumpClass error %s opening port %s", self.name, self.port.port)
@@ -73,8 +73,7 @@ class PumpClass:
         """
         Reads and updates the pressure value and its units from an external pump
         device at regular intervals of 5 seconds, provided the port is ready for
-        operation. Fetches the pressure data using an external method and updates
-        corresponding instance attributes.
+        operation.
         """
         while True:
             if self.portready == 1:
@@ -112,7 +111,7 @@ class PumpClass:
                         databack = self.port.read(size=100)
                         if self.commsdebug:
                             logger.info('Pump %s %s: "%s"', self.name, req_type, databack)
-                        if length > 0:
+                        if length == 0:
                             message = {req_type: 1}
                         else:
                             message = {req_type: str(databack, 'utf-8')[start:length], 'units: ': units}
