@@ -29,7 +29,6 @@ def initialise():
                  'cputemp': '/sys/class/thermal/thermal_zone0/temp',
                  'ion-messages': [
                      {'name': 'pressure', 'string': 'fiAwMSAwQiAzMw0K', 'start': 9, 'length': 16, 'units': 'torr'},
-                     {'name': 'units', 'string': 'fiAwMSAwRSAzNg0K', 'start': 0, 'length': 16, 'units': ''},
                      {'name': 'status', 'string': 'fiAwMSAwRCAzNQ0K', 'start': 0, 'length': 16, 'units': ''},
                      {'name': 'start', 'string': 'fiAwMSAzNyAyQg0K', 'start': 0, 'length': 0, 'units': ''},
                      {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0K', 'start': 0, 'length': 0, 'units': ''}
