@@ -56,6 +56,7 @@ class PumpClass:
         self.port.timeout = 1
         self.value = 0
         self.units = ''
+        self.status = ''
         self.portready = 0
         logger.info('Initialising %s pump on port %s', self.name, self.port.port)
         try:
@@ -77,10 +78,14 @@ class PumpClass:
         """
         while True:
             if self.portready == 1:
-                pressures = self.access_pump('pressure')
-                self.value = pressures['pressure']
-                self.units = pressures['units']
-            sleep(5)
+                pressures = self.access_pump('pressure')['pressure'].split(' ')
+                self.value = pressures[0]
+                self.units = pressures[1]
+                sleep(2.5)
+                self.status = self.access_pump('status')['status']
+                sleep(2.5)
+            else:
+                sleep(5)
 
     def access_pump(self, req_type):
         """
@@ -98,7 +103,6 @@ class PumpClass:
         message = {}
         for item in self.messages:
             if req_type == item['name']:
-                units = item['units']
                 length = item['length']
                 start = item['start']
                 string1 = b64decode(item['string'])
@@ -114,7 +118,7 @@ class PumpClass:
                         if length == 0:
                             message = {req_type: 1}
                         else:
-                            message = {req_type: str(databack, 'utf-8')[start:length], 'units: ': units}
+                            message = {req_type: str(databack, 'utf-8')[start:length]}
                     else:
                         message = {req_type: 0}
                 except:

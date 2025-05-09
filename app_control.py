@@ -15,7 +15,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.3.0'
+VERSION = '1.3.1'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -29,17 +29,12 @@ def initialise():
                  'cputemp': '/sys/class/thermal/thermal_zone0/temp',
                  'ion-messages': [
                      {'name': 'pressure', 'string': 'fiAwMSAwQiAzMw0K', 'start': 9, 'length': 16, 'units': 'torr'},
-                     {'name': 'units', 'string': 'fiAwMSAwRSAzNg0K', 'start': 0, 'length': 16, 'units': ''},
                      {'name': 'status', 'string': 'fiAwMSAwRCAzNQ0K', 'start': 0, 'length': 16, 'units': ''},
                      {'name': 'start', 'string': 'fiAwMSAzNyAyQg0K', 'start': 0, 'length': 0, 'units': ''},
                      {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0K', 'start': 0, 'length': 0, 'units': ''}
                  ],
-                 'ion-length': 16,
                  'ion-port': '/dev/ttyUSB0',
                  'ion-speed': 9600,
-                 'ion-start': 9,
-                 'ion-string': 'fiAwMSAwQiAzMw0K',  # base64 encoded, pump id 01
-                 'ion-units': 'mbar',
                  'rs485-readlength': 400,
                  'rs485-port': '/dev/ttyUSB1',
                  'rs485-speed': 9600,
