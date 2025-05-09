@@ -56,7 +56,7 @@ class PumpClass:
         self.port.timeout = 1
         self.value = 0
         self.units = ''
-        self.status = ''
+        self.status = 'not ready'
         self.portready = 0
         logger.info('Initialising %s pump on port %s', self.name, self.port.port)
         try:
@@ -82,7 +82,7 @@ class PumpClass:
                 if self.commsdebug:
                     logger.info('Pump pressure: "%s"', pressures)
                 self.value = pressures[0]
-                self.units = pressures[1]
+                self.units = pressures[2]
                 sleep(2.5)
                 self.status = self.access_pump('status')['status']
                 sleep(2.5)
