@@ -79,6 +79,8 @@ class PumpClass:
         while True:
             if self.portready == 1:
                 pressures = self.access_pump('pressure')['pressure'].split(' ')
+                if self.commsdebug:
+                    logger.info('Pump pressure: "%s"', pressures)
                 self.value = pressures[0]
                 self.units = pressures[1]
                 sleep(2.5)
