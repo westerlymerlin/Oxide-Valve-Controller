@@ -243,6 +243,7 @@ def statusmessage():
         ionvalue = '%.4E (%s)' % (ionpump.read(), ionpump.units)
     statuslist['turbo'] = turbovalue
     statuslist['ion'] = ionvalue
+    statuslist['ionstatus'] = ionpump.status
     return statuslist
 
 
@@ -278,34 +279,16 @@ def get_turbo_gauge_pressure():
 def pressures():
     """API call: return all guage pressures as a json message"""
     turbodata = get_turbo_gauge_pressure()
-    pressure = [{'pump': 'turbo', 'pressure': turbodata['turbo'], 'units': turbodata['turbounits']},
-                {'pump': 'ion', 'pressure': ionpump.read(), 'units': ionpump.units}]
+    pressure = [{'pump': 'turbo', 'pressure': turbodata['turbo'], 'units': turbodata['turbounits'], 'status': 'OK'},
+                {'pump': 'ion', 'pressure': ionpump.read(), 'units': ionpump.units, 'status': ionpump.status}]
     return pressure
 
 
 def http_pump():
-    """Web page info"""
-    if turbopump.portready == 0:
-        turbovalue = 'Port not available'
-        turbounits = ''
-    elif not turbopump.read():
-        turbovalue = 'No Data Returned'
-        turbounits = ''
-    else:
-        turbodata = get_turbo_gauge_pressure()
-        turbovalue = '%.4E' % turbodata['turbo']
-        turbounits = '(%s)' % turbodata['turbounits']
-    if ionpump.portready == 0:
-        ionvalue = 'Port not available'
-        ionunits = ''
-    elif ionpump.value == '':
-        ionvalue = 'Pump not connected'
-        ionunits = ''
-    else:
-        ionvalue = ionpump.read()
-        ionunits = '(%s)' % ionpump.units
-    return [{'pump': 'turbo', 'pressure': turbovalue, 'units': turbounits},
-                {'pump': 'ion', 'pressure': ionvalue, 'units': ionunits}]
+    """Web page setup for pump data"""
+    return [{'pump': 'turbo', 'description': 'Turbo Pump', 'row': 'Pump Pressure'},
+                {'pump': 'ion', 'description': 'Ion Pump', 'row': 'Pump Pressure'},
+                {'pump': 'ionstatus', 'description': 'Ion Pump', 'row': 'Pump Status'}]
 
 
 

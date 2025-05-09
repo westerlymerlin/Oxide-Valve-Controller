@@ -53,6 +53,8 @@ async function getstatusdata() {
   idtoupdate.innerHTML = statusdata.turbo;
   var idtoupdate = document.getElementById('ion-status');
   idtoupdate.innerHTML = statusdata.ion;
+  var idtoupdate = document.getElementById('ionstatus-status');
+  idtoupdate.innerHTML = statusdata.ionstatus;
  }
 
 </script>
@@ -84,8 +86,8 @@ async function getstatusdata() {
          {% endfor %}
          {% for pressure in pressures %}
             <tr>
-                    <td class="tabledataleft">Pump Pressure</td>
-                    <td class="tabledataleft">{{pressure['pump']}} pump</td>
+                    <td class="tabledataleft">{{pressure['row']}}</td>
+                    <td class="tabledataleft">{{pressure['description']}}</td>
                     <td class="tabledataleft" id="{{pressure['pump']}}-status">awaiting data</td>
             </tr>
          {% endfor %}
