@@ -165,8 +165,8 @@ def parsecontrol(item, command):
             return {'status': 'rebooting'}
         return {'status': 'bad request'}
     except ValueError:
-        logger.warning('incorrect json message')
-        return {'status': 'incorrect json message'}
+        logger.warning('Value Error incorrect json message - %s, %s', item, command)
+        return {'status': 'Value Error incorrect json message'}
     except IndexError:
         logger.warning('bad valve number')
         return {'status': 'bad valve number'}
