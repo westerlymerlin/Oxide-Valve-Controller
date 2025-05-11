@@ -201,7 +201,7 @@ API call: return all guage pressures as a json message
 def http_pump()
 ```
 
-Web page info
+Web page setup for pump data
 
 <a id="valvecontrol.turbopump"></a>
 
