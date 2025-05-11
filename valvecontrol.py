@@ -237,7 +237,7 @@ def statusmessage():
         turbovalue = '%.4E (%s)' % (turbodata['turbo'], turbodata['turbounits'])
     if ionpump.portready == 0:
         ionvalue = 'Port not available'
-    elif ionpump.value == '':
+    elif ionpump.pressurevalue == '':
         ionvalue = 'Pump not connected'
     else:
         ionvalue = '%.4E (%s)' % (ionpump.read(), ionpump.units)
