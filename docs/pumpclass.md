@@ -73,8 +73,8 @@ configured messages, monitor the state of the device, and retrieve or parse its 
 :type messages: list[dict]
 :ivar commsdebug: A flag for enabling or disabling detailed communication logging.
 :type commsdebug: bool
-:ivar value: The current value retrieved or processed from the pump's response.
-:type value: str or int
+:ivar pressurevalue: The current value retrieved or processed from the pump's response.
+:type pressurevalue: str or int
 :ivar portready: Indicates the readiness of the serial port. 1 if ready, 0 otherwise.
 :type portready: int
 
@@ -96,8 +96,7 @@ def pressurereader()
 
 Reads and updates the pressure value and its units from an external pump
 device at regular intervals of 5 seconds, provided the port is ready for
-operation. Fetches the pressure data using an external method and updates
-corresponding instance attributes.
+operation.
 
 <a id="pumpclass.PumpClass.access_pump"></a>
 

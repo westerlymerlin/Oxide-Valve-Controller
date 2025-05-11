@@ -37,8 +37,8 @@ class PumpClass:
     :type messages: list[dict]
     :ivar commsdebug: A flag for enabling or disabling detailed communication logging.
     :type commsdebug: bool
-    :ivar value: The current value retrieved or processed from the pump's response.
-    :type value: str or int
+    :ivar pressurevalue: The current value retrieved or processed from the pump's response.
+    :type pressurevalue: str or int
     :ivar portready: Indicates the readiness of the serial port. 1 if ready, 0 otherwise.
     :type portready: int
     """
@@ -47,6 +47,7 @@ class PumpClass:
         self.port = serial.Serial()
         self.port.port = port
         self.port.baudrate = speed
+        self.reading = False
         self.messages = messages
         self.port.parity = serial.PARITY_NONE
         self.port.stopbits = serial.STOPBITS_ONE
@@ -54,7 +55,7 @@ class PumpClass:
         # self.port.set_buffer_size(4096, 4096)
         self.commsdebug = False
         self.port.timeout = 1
-        self.value = 0
+        self.pressurevalue = 0
         self.units = ''
         self.status = 'not ready'
         self.portready = 0
@@ -81,8 +82,8 @@ class PumpClass:
                 pressures = self.access_pump('pressure')['pressure'].split(' ')
                 if self.commsdebug:
                     logger.info('Pump pressure: "%s"', pressures)
-                self.value = pressures[0]
-                self.units = pressures[2]
+                self.pressurevalue = pressures[0]
+                self.units = pressures[-1]
                 sleep(2.5)
                 self.status = self.access_pump('status')['status']
                 sleep(2.5)
@@ -110,6 +111,9 @@ class PumpClass:
                 string1 = b64decode(item['string'])
                 try:
                     if self.portready == 1:
+                        while self.reading:
+                            sleep(0.25)
+                        self.reading = True
                         self.port.reset_input_buffer()
                         if string1:
                             self.port.write(string1)
@@ -126,6 +130,7 @@ class PumpClass:
                 except:
                     logger.exception('Pump Error on %s: %s', self.name, Exception)
                     message = {req_type: 0}
+        self.reading = False
         return message
 
 
@@ -142,9 +147,9 @@ class PumpClass:
                  value attribute or 0 if the conversion fails.
         :rtype: float
         """
-        if self.value == '':
+        if self.pressurevalue == '':
             return 0
         try:
-            return float(self.value)
+            return float(self.pressurevalue)
         except:
             return 0

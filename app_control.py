@@ -15,7 +15,7 @@ import random
 import json
 from datetime import datetime
 
-VERSION = '1.3.1'
+VERSION = '1.3.3'
 
 def initialise():
     """Setup the settings structure with default values"""
@@ -28,10 +28,11 @@ def initialise():
                  'gunicornpath': './logs/',
                  'cputemp': '/sys/class/thermal/thermal_zone0/temp',
                  'ion-messages': [
-                     {'name': 'pressure', 'string': 'fiAwMSAwQiAzMw0K', 'start': 9, 'length': 16, 'units': 'torr'},
-                     {'name': 'status', 'string': 'fiAwMSAwRCAzNQ0K', 'start': 0, 'length': 16, 'units': ''},
-                     {'name': 'start', 'string': 'fiAwMSAzNyAyQg0K', 'start': 0, 'length': 0, 'units': ''},
-                     {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0K', 'start': 0, 'length': 0, 'units': ''}
+                     {'name': 'pressure', 'string': 'fiAwMSAwQiAzMw0=', 'start': 9, 'length': -4},
+                     {'name': 'status', 'string': 'fiAwMSAwRCAzNQ0=', 'start': 9, 'length': -4,},
+                     {'name': 'setunits', 'string': 'fiAwMSAwRSBNIEEzDQ=', 'start': 3, 'length': -4},
+                     {'name': 'start', 'string': 'fiAwMSAzNyAyQg0=', 'start': 3, 'length': -4},
+                     {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0=', 'start': 3, 'length': -4}
                  ],
                  'ion-port': '/dev/ttyUSB0',
                  'ion-speed': 9600,
