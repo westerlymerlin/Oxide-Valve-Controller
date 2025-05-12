@@ -173,7 +173,15 @@ def parsecontrol(item, command):
 
 
 def valveopen(valveid):
-    """Open the valve specified"""
+    """
+    Opens a valve given its identifier. If the valve has an excluded valve
+    that is already open, it logs a warning and does not open the specified
+    valve. Otherwise, it proceeds to open the valve and logs the action.
+
+    :param valveid: Identifier of the valve to be opened
+    :type valveid: int
+    :return: None
+    """
     valve = [valve for valve in valves if valve['id'] == valveid]
     print(valve)
     if valve[0]['excluded'] > 0 and GPIO.input([valvex for valvex in valves if valvex['id'] == valve[0]['excluded']][0]['gpio']) == 1:
