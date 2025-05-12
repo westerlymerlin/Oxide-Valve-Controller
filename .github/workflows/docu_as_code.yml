@@ -40,4 +40,4 @@ jobs:
         fi
         echo "No docs have been updated, skipping commits"
       env:
-        GH_TOKEN: ${{ secrets.ACTIONSECRET }}
+        GH_TOKEN: ${{ secrets.PAGHACTIONS }}
