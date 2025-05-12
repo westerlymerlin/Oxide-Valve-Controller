@@ -30,7 +30,7 @@ def initialise():
                  'ion-messages': [
                      {'name': 'pressure', 'string': 'fiAwMSAwQiAzMw0=', 'start': 9, 'length': -4},
                      {'name': 'status', 'string': 'fiAwMSAwRCAzNQ0=', 'start': 9, 'length': -4,},
-                     {'name': 'setunits', 'string': 'fiAwMSAwRSBNIEEzDQ=', 'start': 3, 'length': -4},
+                     {'name': 'setunits', 'string': 'fiAwMSAwRSBNIEEzDQ==', 'start': 3, 'length': -4},
                      {'name': 'start', 'string': 'fiAwMSAzNyAyQg0=', 'start': 3, 'length': -4},
                      {'name': 'stop', 'string': 'fiAwMSAzOCAyQw0=', 'start': 3, 'length': -4}
                  ],
