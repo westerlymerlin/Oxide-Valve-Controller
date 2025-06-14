@@ -1,15 +1,4 @@
-# Contents for: rs485class
-
-* [rs485class](#rs485class)
-  * [sleep](#rs485class.sleep)
-  * [Timer](#rs485class.Timer)
-  * [serial](#rs485class.serial)
-  * [settings](#rs485class.settings)
-  * [logger](#rs485class.logger)
-  * [Rs485class](#rs485class.Rs485class)
-    * [\_\_init\_\_](#rs485class.Rs485class.__init__)
-    * [rs485\_reader](#rs485class.Rs485class.rs485_reader)
-    * [read](#rs485class.Rs485class.read)
+# None
 
 <a id="rs485class"></a>
 

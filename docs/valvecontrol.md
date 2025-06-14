@@ -1,30 +1,4 @@
-# Contents for: valvecontrol
-
-* [valvecontrol](#valvecontrol)
-  * [Timer](#valvecontrol.Timer)
-  * [os](#valvecontrol.os)
-  * [GPIO](#valvecontrol.GPIO)
-  * [logger](#valvecontrol.logger)
-  * [settings](#valvecontrol.settings)
-  * [updatesetting](#valvecontrol.updatesetting)
-  * [PumpClass](#valvecontrol.PumpClass)
-  * [Rs485class](#valvecontrol.Rs485class)
-  * [channellist](#valvecontrol.channellist)
-  * [valves](#valvecontrol.valves)
-  * [parsecontrol](#valvecontrol.parsecontrol)
-  * [valveopen](#valvecontrol.valveopen)
-  * [valveclose](#valvecontrol.valveclose)
-  * [allclose](#valvecontrol.allclose)
-  * [status](#valvecontrol.status)
-  * [valvestatus](#valvecontrol.valvestatus)
-  * [httpstatus](#valvecontrol.httpstatus)
-  * [statusmessage](#valvecontrol.statusmessage)
-  * [reboot](#valvecontrol.reboot)
-  * [get\_turbo\_gauge\_pressure](#valvecontrol.get_turbo_gauge_pressure)
-  * [pressures](#valvecontrol.pressures)
-  * [http\_pump](#valvecontrol.http_pump)
-  * [turbopump](#valvecontrol.turbopump)
-  * [ionpump](#valvecontrol.ionpump)
+# None
 
 <a id="valvecontrol"></a>
 

@@ -1,30 +1,4 @@
-# Contents for: app
-
-* [app](#app)
-  * [subprocess](#app.subprocess)
-  * [enumerate\_threads](#app.enumerate_threads)
-  * [Flask](#app.Flask)
-  * [render\_template](#app.render_template)
-  * [jsonify](#app.jsonify)
-  * [request](#app.request)
-  * [logger](#app.logger)
-  * [httpstatus](#app.httpstatus)
-  * [http\_pump](#app.http_pump)
-  * [parsecontrol](#app.parsecontrol)
-  * [statusmessage](#app.statusmessage)
-  * [settings](#app.settings)
-  * [VERSION](#app.VERSION)
-  * [app](#app.app)
-  * [read\_log\_from\_file](#app.read_log_from_file)
-  * [read\_cpu\_temperature](#app.read_cpu_temperature)
-  * [threadlister](#app.threadlister)
-  * [index](#app.index)
-  * [statusdata](#app.statusdata)
-  * [api](#app.api)
-  * [showplogs](#app.showplogs)
-  * [showgalogs](#app.showgalogs)
-  * [showgelogs](#app.showgelogs)
-  * [showslogs](#app.showslogs)
+# None
 
 <a id="app"></a>
 

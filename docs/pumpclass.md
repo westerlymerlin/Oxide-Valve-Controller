@@ -1,16 +1,4 @@
-# Contents for: pumpclass
-
-* [pumpclass](#pumpclass)
-  * [sleep](#pumpclass.sleep)
-  * [Timer](#pumpclass.Timer)
-  * [b64decode](#pumpclass.b64decode)
-  * [serial](#pumpclass.serial)
-  * [logger](#pumpclass.logger)
-  * [PumpClass](#pumpclass.PumpClass)
-    * [\_\_init\_\_](#pumpclass.PumpClass.__init__)
-    * [pressurereader](#pumpclass.PumpClass.pressurereader)
-    * [access\_pump](#pumpclass.PumpClass.access_pump)
-    * [read](#pumpclass.PumpClass.read)
+# None
 
 <a id="pumpclass"></a>
 
