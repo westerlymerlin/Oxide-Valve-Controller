@@ -1,0 +1,161 @@
+
+pi@OXIDE-VALVE:~ $ cat settings.json
+{
+    "LastSave": "11/05/2025 15:32:35",
+    "api-key": "i4VWNvkZH-n8jr3vydk~mSSBYFUkHHLGmgd8y9MNeV+dN8yxUupV--uC8eTitLHsyNGsZvmtXvwh3A9V2M2ajKDTCupnVtCD7dCh9~dRKsH178gfadc2XCbdvB+BaMx1",
+    "app-name": "Oxide Line Valve Controller",
+    "cputemp": "/sys/class/thermal/thermal_zone0/temp",
+    "gunicornpath": "./logs/",
+    "ion-messages": [
+        {
+            "length": -4,
+            "name": "pressure",
+            "start": 9,
+            "string": "fiAwMSAwQiAzMw0="
+        },
+        {
+            "length": -4,
+            "name": "status",
+            "start": 9,
+            "string": "fiAwMSAwRCAzNQ0="
+        },
+        {
+            "length": -1,
+            "name": "setunits",
+            "start": 0,
+            "string": "fiAwMSAwRSBNIEEzDQ=="
+        },
+        {
+            "length": -4,
+            "name": "start",
+            "start": 3,
+            "string": "fiAwMSAzNyAyQg0="
+        },
+        {
+            "length": -4,
+            "name": "stop",
+            "start": 3,
+            "string": "fiAwMSAzOCAyQw0="
+        }
+    ],
+    "ion-port": "/dev/ttyUSB0",
+    "ion-speed": 9600,
+    "logappname": "Valve-Controller-Py",
+    "logfilepath": "./logs/valvecontroller.log",
+    "loglevel": "INFO",
+    "rs485-debug": false,
+    "rs485-interval": 5,
+    "rs485-messages": [
+        {
+            "length": 7,
+            "name": "Turbo Gauge Pressure",
+            "string": "0011074006",
+            "units": "hPa"
+        },
+        {
+            "length": 7,
+            "name": "Turbo Gauge Model",
+            "string": "0011034906",
+            "units": ""
+        }
+    ],
+    "rs485-port": "/dev/ttyUSB1",
+    "rs485-readlength": 400,
+    "rs485-speed": 9600
+}
+
+
+channellist = [23, 22, 27, 18, 17, 13, 12, 11, 9, 24, 21, 20, 26, 16, 19]
+
+valves = [
+    {
+        'id': 1,
+        'gpio': 23,
+        'description': 'heating cell',
+        'excluded': 0
+    },
+    {
+        'id': 2,
+        'gpio': 22,
+        'description': 'Ar tank pipette input',
+        'excluded': 3
+    },
+    {
+        'id': 3,
+        'gpio': 27,
+        'description': 'Ar tank pipette output',
+        'excluded': 2
+    },
+    {
+        'id': 4,
+        'gpio': 18,
+        'description': 'Ne tank pipette input',
+        'excluded': 5
+    },
+    {
+        'id': 5,
+        'gpio': 17,
+        'description': 'Ne tank pipette output',
+        'excluded': 4
+    },
+    {
+        'id': 6,
+        'gpio': 13,
+        'description': '4He Q tank pipette input',
+        'excluded': 7
+    },
+    {
+        'id': 7,
+        'gpio': 12,
+        'description': '4He Q tank pipette output',
+        'excluded': 6
+    },
+    {
+        'id': 8,
+        'gpio': 11,
+        'description': '3He spike tank pipette input',
+        'excluded': 9
+    },
+    {
+        'id': 9,
+        'gpio': 9,
+        'description': '3He spike tank pipette output',
+        'excluded': 8
+    },
+    {
+        'id': 10,
+        'gpio': 24,
+        'description': 'turbo to cryotrap',
+        'excluded': 0
+    },
+    {
+        'id': 11,
+        'gpio': 21,
+        'description': 'input to manifold',
+        'excluded': 0
+    },
+    {
+        'id': 12,
+        'gpio': 20,
+        'description': 'turbo to manifold',
+        'excluded': 0
+    },
+    {
+        'id': 13,
+        'gpio': 26,
+        'description': 'SRS RGA',
+        'excluded': 0
+    },
+    {
+        'id': 14,
+        'gpio': 16,
+        'description': 'Ion Pump',
+        'excluded': 0
+    },
+    {
+        'id': 15,
+        'gpio': 19,
+        'description': 'spare',
+        'excluded': 0
+    }
+]

@@ -4,15 +4,29 @@
 
 # app
 
-Flask web application for valve control system monitoring and management.
+Flask web application for Raspberry Pi system monitoring and control.
 
-Provides web interface and REST API endpoints for:
-- Valve status monitoring and control
-- System statistics (CPU temperature, running threads)
-- Log viewing (application, Gunicorn, and system logs)
-- Real-time status updates
+This module provides a web interface and API endpoints for monitoring and controlling
+a Raspberry Pi system. It includes features for:
+- System status monitoring (CPU temperature, running threads)
+- Log viewing (Application, Gunicorn, System logs)
+- RESTful API endpoints with authentication
+- Real-time status updates via JavaScript
 
-API access requires authentication via API key header.
+The application runs on Gunicorn when deployed on Raspberry Pi and includes
+various endpoints for both web interface and programmatic access.
+
+Routes:
+    / : Main status page
+    /statusdata : JSON endpoint for live status updates
+    /api : Protected API endpoint for system control
+    /pylog : Application log viewer
+    /guaccesslog : Gunicorn access log viewer
+    /guerrorlog : Gunicorn error log viewer
+    /syslog : System log viewer
+
+Authentication:
+    API endpoints require a valid API key passed in the 'Api-Key' header.
 
 <a id="app.subprocess"></a>
 
@@ -21,6 +35,14 @@ API access requires authentication via API key header.
 <a id="app.enumerate_threads"></a>
 
 ## enumerate\_threads
+
+<a id="app.Timer"></a>
+
+## Timer
+
+<a id="app.datetime"></a>
+
+## datetime
 
 <a id="app.Flask"></a>
 
@@ -38,37 +60,69 @@ API access requires authentication via API key header.
 
 ## request
 
-<a id="app.logger"></a>
+<a id="app.redirect"></a>
 
-## logger
+## redirect
 
-<a id="app.httpstatus"></a>
+<a id="app.session"></a>
 
-## httpstatus
+## session
 
-<a id="app.http_pump"></a>
+<a id="app.url_for"></a>
 
-## http\_pump
+## url\_for
 
-<a id="app.parsecontrol"></a>
+<a id="app.send_file"></a>
 
-## parsecontrol
+## send\_file
 
-<a id="app.statusmessage"></a>
+<a id="app.authenticate"></a>
 
-## statusmessage
-
-<a id="app.settings"></a>
-
-## settings
+## authenticate
 
 <a id="app.VERSION"></a>
 
 ## VERSION
 
+<a id="app.API_KEY"></a>
+
+## API\_KEY
+
+<a id="app.settings"></a>
+
+## settings
+
+<a id="app.logger"></a>
+
+## logger
+
+<a id="app.set_oled"></a>
+
+## set\_oled
+
+<a id="app.parsecontrol"></a>
+
+## parsecontrol
+
+<a id="app.serial_ports"></a>
+
+## serial\_ports
+
+<a id="app.serial_port_info"></a>
+
+## serial\_port\_info
+
 <a id="app.app"></a>
 
 #### app
+
+<a id="app.YEAR"></a>
+
+#### YEAR
+
+<a id="app.oledthread"></a>
+
+#### oledthread
 
 <a id="app.read_log_from_file"></a>
 
@@ -88,7 +142,7 @@ Read a log from a file and reverse the order of the lines so newest is at the to
 def read_cpu_temperature()
 ```
 
-Read the CPU temperature
+Read the CPU temperature and returns in in Celcius
 
 <a id="app.threadlister"></a>
 
@@ -120,7 +174,7 @@ Main web status page
 def statusdata()
 ```
 
-Status data read by javascript on default website
+Status data read by javascript on default website so the page shows near live values
 
 <a id="app.api"></a>
 
@@ -131,7 +185,69 @@ Status data read by javascript on default website
 def api()
 ```
 
-API Endpoint for programatic access - needs request data to be posted in a json file
+API Endpoint for programatic access - needs request data to be posted in a json file. Contains a check for a
+valid API key.
+
+<a id="app.login"></a>
+
+#### login
+
+```python
+@app.route('/auth', methods=['GET', 'POST'])
+def login()
+```
+
+Handles authentication by providing a login interface for users. It supports both GET
+and POST methods. On successful authentication, the user is redirected to the "config"
+page. If authentication fails, the user is informed about the failure and can attempt
+to log in again.
+
+<a id="app.config"></a>
+
+#### config
+
+```python
+@app.route('/config', methods=['GET', 'POST'])
+def config()
+```
+
+Handles the configuration for the application through GET and POST methods.
+
+This function provides an endpoint for configuring various application settings.
+For POST requests, it processes forms with specific keys to update corresponding
+settings. For GET requests, it renders the configuration template with current
+application version, settings, network information, and the current year.
+
+<a id="app.config_serial"></a>
+
+#### config\_serial
+
+```python
+@app.route('/serial', methods=['GET', 'POST'])
+def config_serial()
+```
+
+Handles configuration and updates for a specific serial port.
+
+Provides functionality to view and configure serial port settings,
+as well as update or delete messages associated with the serial port.
+The function supports GET and POST HTTP methods to retrieve serial
+port-related pages or process submitted forms.
+
+<a id="app.download_manual"></a>
+
+#### download\_manual
+
+```python
+@app.route('/documentation')
+def download_manual()
+```
+
+Handles the request to download the application's manual.
+
+This function serves the PDF manual of the application as a downloadable
+attachment. The manual file's name is retrieved from the application
+settings and provided as the download name.
 
 <a id="app.showplogs"></a>
 
@@ -142,7 +258,7 @@ API Endpoint for programatic access - needs request data to be posted in a json 
 def showplogs()
 ```
 
-Show the Application log
+Show the Application log web page
 
 <a id="app.showgalogs"></a>
 
@@ -153,7 +269,7 @@ Show the Application log
 def showgalogs()
 ```
 
-"Show the Gunicorn Access Log
+"Show the Gunicorn Access Log web page
 
 <a id="app.showgelogs"></a>
 
@@ -164,7 +280,7 @@ def showgalogs()
 def showgelogs()
 ```
 
-"Show the Gunicorn Errors Log
+"Show the Gunicorn Errors Log web page
 
 <a id="app.showslogs"></a>
 
@@ -175,5 +291,5 @@ def showgelogs()
 def showslogs()
 ```
 
-Show the system log
+Show the last 2000 lines from the system log on a web page
 

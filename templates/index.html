@@ -1,109 +1,107 @@
 <!doctype html>
 <html lang="en-US">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PyMS - {{appname}}</title>
-<link href="{{ url_for('static',filename='css/text.css') }}" rel="stylesheet" type="text/css">
-<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{settings['app-name']}}</title>
+    <link href="{{ url_for('static',filename='css/text.css') }}" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 </head>
 <body onload="getstatusdata()">
-<script>
+    <script>
+        setInterval(getstatusdata, 1000);
 
-setInterval(getstatusdata, 1000);
+        async function getstatusdata() {
+            const response = await fetch("/statusdata");
+            const statusdata = await response.json();
+            var idtoupdate = document.getElementById('cpu-value');
+            idtoupdate.innerHTML = statusdata.cputemperature;
+            {% for ditem in digital_status['values'] %}{% if digital_status['values'][ditem]['enabled'] %}
+            var idtoupdate = document.getElementById('d{{ditem}}-value');
+            idtoupdate.innerHTML = statusdata.digital_status.values.{{ditem}}.value;
+            {% endif %}{% endfor %}
+            {% for aitem in analogue_status['values'] %}{% if analogue_status['values'][aitem]['enabled'] %}
+            var idtoupdate = document.getElementById('a{{aitem}}-value');
+            idtoupdate.innerHTML = statusdata.analogue_status.values.{{aitem}}.value.toFixed(3);
+            {% endif %}{% endfor %}
+            {% for sitem in serial_status['values'] %}
+            var idtoupdate = document.getElementById('s{{sitem}}-value');
+            idtoupdate.innerHTML = statusdata.serial_status.values.{{sitem}}.value;
+            var idtoupdate = document.getElementById('s{{sitem}}-port');
+            idtoupdate.innerHTML = statusdata.serial_status.values.{{sitem}}.portstatus;
+            {% endfor %}
+        }
+    </script>
 
-async function getstatusdata() {
-  const response = await fetch("/statusdata");
-  const statusdata = await response.json();
-  var idtoupdate = document.getElementById('cpu-status');
-  idtoupdate.innerHTML = statusdata.cputemperature;
-  var idtoupdate = document.getElementById('valve1-status');
-  idtoupdate.innerHTML = statusdata.valve1;
-  var idtoupdate = document.getElementById('valve2-status');
-  idtoupdate.innerHTML = statusdata.valve2;
-  var idtoupdate = document.getElementById('valve3-status');
-  idtoupdate.innerHTML = statusdata.valve3;
-  var idtoupdate = document.getElementById('valve4-status');
-  idtoupdate.innerHTML = statusdata.valve4;
-  var idtoupdate = document.getElementById('valve5-status');
-  idtoupdate.innerHTML = statusdata.valve5;
-  var idtoupdate = document.getElementById('valve6-status');
-  idtoupdate.innerHTML = statusdata.valve6;
-  var idtoupdate = document.getElementById('valve7-status');
-  idtoupdate.innerHTML = statusdata.valve7;
-  var idtoupdate = document.getElementById('valve8-status');
-  idtoupdate.innerHTML = statusdata.valve8;
-  var idtoupdate = document.getElementById('valve9-status');
-  idtoupdate.innerHTML = statusdata.valve9;
-  var idtoupdate = document.getElementById('valve10-status');
-  idtoupdate.innerHTML = statusdata.valve10;
-  var idtoupdate = document.getElementById('valve11-status');
-  idtoupdate.innerHTML = statusdata.valve11;
-  var idtoupdate = document.getElementById('valve12-status');
-  idtoupdate.innerHTML = statusdata.valve12;
-  var idtoupdate = document.getElementById('valve13-status');
-  idtoupdate.innerHTML = statusdata.valve13;
-  var idtoupdate = document.getElementById('valve14-status');
-  idtoupdate.innerHTML = statusdata.valve14;
-  var idtoupdate = document.getElementById('valve15-status');
-  idtoupdate.innerHTML = statusdata.valve15;
-  var idtoupdate = document.getElementById('turbo-status');
-  idtoupdate.innerHTML = statusdata.turbo;
-  var idtoupdate = document.getElementById('ion-status');
-  idtoupdate.innerHTML = statusdata.ion;
-  var idtoupdate = document.getElementById('ionstatus-status');
-  idtoupdate.innerHTML = statusdata.ionstatus;
- }
+    <section class="banner">
+        <div>
+            <p class="logo">{{settings['app-name']}} - System Status &nbsp; CPU <strong id="cpu-value">awaiting-data</strong>&deg;C</p>
+            <p class="breadcrumbtext">
+                <a href="/" class="breadcrumblink">Return to index</a> &nbsp;|&nbsp;
+                <a href="/pylog" class="breadcrumblink">Application Log</a> &nbsp;|&nbsp;
+                <a href="/guaccesslog" class="breadcrumblink">Website Access Log</a> &nbsp;|&nbsp;
+                <a href="/guerrorlog" class="breadcrumblink">Website Error Log</a> &nbsp;|&nbsp;
+                <a href="/syslog" class="breadcrumblink">System Log</a> &nbsp;|&nbsp;
+                <a href="/config" class="breadcrumblink">System Config</a>
+            </p><br>
+        </div>
+    </section>
 
-</script>
-
-	  <section class="banner">
-		  <div >
-              <P class="logo">PyMS - {{appname}} - Server Status &nbsp CPU <strong id="cpu-status">awaiting-data</strong>&deg;C</P>
-              <p class="breadcrumbtext"><a href = "/" class="breadcrumblink">Return to index</a> &nbsp|&nbsp
-              <a href = "/pylog" class="breadcrumblink">Application Log</a> &nbsp|&nbsp
-              <a href = "/guaccesslog" class="breadcrumblink">Website Access Log</a> &nbsp|&nbsp
-              <a href = "/guerrorlog" class="breadcrumblink">Website Error Log</a> &nbsp|&nbsp
-              <a href = "/syslog" class="breadcrumblink">System Log</a></p><br>
-          </div>
-  </section>
-<section class="container2">
-    <p class="sectiontext"> Valve Status</p>
+    <section class="container2">
+        <p class="sectiontext">Controller Status</p>
         <table>
-         <thead>
-         <td class="tabledataleft"><B>Valve</B></td>
-            <td class="tabledataleft"><B>Description</B></td>
-            <td class="tabledataleft"><B>Status</B></td>
-         </thead>
-         {% for valve in valves %}
-            <tr>
-                    <td class="tabledataleft">Valve {{valve['id']}}</td>
-                    <td class="tabledataleft">{{valve['description']}}</td>
-                    <td class="tabledataleft" id="valve{{valve['id']}}-status">awaiting data</td>
-            </tr>
-         {% endfor %}
-         {% for pressure in pressures %}
-            <tr>
-                    <td class="tabledataleft">{{pressure['row']}}</td>
-                    <td class="tabledataleft">{{pressure['description']}}</td>
-                    <td class="tabledataleft" id="{{pressure['pump']}}-status">awaiting data</td>
-            </tr>
-         {% endfor %}
-         {% for thread in threads %}
-             <tr>
+            <thead>
+                <tr>
+                    <th class="tabledataleft">Channel</th>
+                    <th class="tabledataleft">Description</th>
+                    <th class="tabledataleft">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in digital_status['values'] %}
+                {% if digital_status['values'][item]['enabled'] %}
+                <tr>
+                    <td class="tabledataleft">{{item}}</td>
+                    <td class="tabledataleft">{{digital_status['values'][item]['name']}}, ({{digital_status['values'][item]['direction']}})</td>
+                    <td class="tabledataleft" id="d{{item}}-value" >Awaiting Data</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                {% for item in analogue_status['values'] %}
+                {% if analogue_status['values'][item]['enabled'] %}
+                <tr>
+                    <td class="tabledataleft">{{item}}</td>
+                    <td class="tabledataleft">{{analogue_status['values'][item]['name']}}</td>
+                    <td class="tabledataleft" id="a{{item}}-value" >Awaiting Data</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                {% for item in serial_status['values'] %}
+                <tr>
+                    <td class="tabledataleft" id="s{{item}}-port">{{serial_status['values'][item]['name']}} Not Connected</td>
+                    <td class="tabledataleft">{{serial_status['values'][item]['name']}}</td>
+                    <td class="tabledataleft" id="s{{item}}-value">Awaiting Data</td>
+                </tr>
+                {% endfor %}
+                {% for thread in threads %}
+                <tr>
                     <td class="tabledataleft">Thread</td>
                     <td class="tabledataleft">{{thread[0]}}</td>
                     <td class="tabledataleft">{{thread[1]}}</td>
-
                 </tr>
-         {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>&nbsp;</p>
+        <p class="bodytext">For more information please review the software description: <a href="/documentation">{{settings['app-name']}}.pdf</a>.</p>
+    </section>
 
-      </table>
-    <p>&nbsp</p>
-	</section>
-  <section class="banner">
- <div class ="copyright"><strong>Software Version</strong> {{version}}<br>&copy;2025 - <strong>Gary Twinn</strong></div>
-	  </section>
+    <section class="banner">
+        <div class="copyright">
+            <strong>Software Version</strong> {{version}}<br>
+            &copy;{{year}} - <strong>TS Technologies</strong>
+        </div>
+    </section>
 </body>
 </html>
