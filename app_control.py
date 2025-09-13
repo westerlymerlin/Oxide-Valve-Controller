@@ -26,7 +26,7 @@ import json
 from base64 import b64decode, b64encode
 from datetime import datetime
 
-VERSION = '1.4.0'
+VERSION = '1.4.1'
 API_KEY=''
 
 def initialise():
@@ -289,6 +289,7 @@ def loadsettings():
     API_KEY = b64decode(settings['api-key']).decode('utf-8')
     if API_KEY == 'change-me':  # the default value
         settings['api-key'] = b64encode(generate_api_key(128).encode('utf-8')).decode('utf-8')
+        API_KEY = b64decode(settings['api-key']).decode('utf-8')
         settingschanged = True
     if settingschanged:
         writesettings()
