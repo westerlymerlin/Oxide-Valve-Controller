@@ -1,11 +1,12 @@
 Version     Description
+1.4.1   BUGFIX: Resolves issue where api=key is incorrectly displayed first time app is run
 1.4.0   Changed to use the new TST Controller codebase
 1.3.3   Added a check to see if pump was already being accessed before accessing pump on a read command.
 1.3.2   Added pump status to Web page and returned api data
 1.3.1   Change to split pressure reading into pressure and units
 1.3.0   Change to allow multiple commands to be added to the pump class
 1.2.5   Bug Fix: Statutsdata changed to return a float not str for ion pump reading
-1.2.4   Added API command to switch on and off ion pump debugginhg
+1.2.4   Added API command to switch on and off ion pump debugging
 1.2.3   changed default api key length to 128 characters
 1.2.2   Changed Status page to dynamically update via javascript
 1.2.1   Added Debug Option to RS485 Class
