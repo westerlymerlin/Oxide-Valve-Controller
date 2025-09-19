@@ -37,9 +37,12 @@ Dependencies:
 
 ## settings
 
+
 <a id="digital_class.writesettings"></a>
 
 ## writesettings
+
+
 
 <a id="digital_class.ChannelObject"></a>
 
@@ -59,8 +62,12 @@ channel, such as its current state, direction, and description.
 
 #### \_\_init\_\_
 
-```python
+
+
 def __init__(channel_settings, channel_id)
+
+
+
 ```
 
 Initializes a new instance of the GPIO configuration class.
@@ -108,6 +115,7 @@ indicates whether the pin is logically HIGH or LOW.
 :return: Logical state of the GPIO pin as returned by the GPIO library
 :rtype: int or bool
 
+
 <a id="digital_class.ChannelObject.change_setting"></a>
 
 #### change\_setting
@@ -138,6 +146,7 @@ current object instance.
 The returned dictionary includes the identifier, name, direction, status of
 the object (enabled/disabled), and its current value. If the direction is set
 to 'output pwm', additional fields like pwm and frequency are also included.
+
 
 <a id="digital_class.check_digital_key"></a>
 
