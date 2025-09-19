@@ -7,11 +7,17 @@
     <title>Application Restarting</title>
     <link href="/static/css/text.css" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="/static/images/favicon.ico">
+
 </head>
 <body>
+    <script>
+        setTimeout(function(){
+            window.location.href = '/config';
+            }, 5000);
+    </script>
     <section class="banner">
         <div>
-            <p class="logo">TST Controller - App is restarting</p>
+            <p class="logo">TST Controller - App is restarting, please wait and the config page will reload</p>
             <p class="breadcrumbtext">
                 <a href="/" class="breadcrumblink">Return to index</a> &nbsp|&nbsp
                 <a href="/pylog" class="breadcrumblink">Application Log</a> &nbsp|&nbsp
@@ -23,12 +29,12 @@
         </div>
     </section>
     <section class="container2">
-        <p class="sectiontext">App is rebooting please wait</p>
+        <p class="sectiontext">App is restarting please wait</p>
 
     <p>&nbsp;</p>
     </section>
     <section class="banner">
-        <div class="copyright">TS Technologies</div>
+        <p class="copyright">TS Technologies</p>
     </section>
-</>
+</body>
 </html>

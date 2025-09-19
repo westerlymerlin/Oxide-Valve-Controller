@@ -46,7 +46,7 @@ Usage:
     Channels can be managed through the configuration functions, and data can be
     accessed via the serial_http_data() function or individual channel instances.
 """
-
+from ast import literal_eval
 from time import sleep
 from threading import Timer
 from base64 import b64decode, b64encode
@@ -67,7 +67,7 @@ def str_encode(string):
     in UTF-8, then applying Base64 encoding to it, and finally decoding
     the resulting bytes back into a string.
     """
-    return b64encode(string.encode('utf-8')).decode('utf-8')
+    return b64encode(string).decode('utf-8')
 
 
 def str_decode(string):
@@ -77,7 +77,7 @@ def str_decode(string):
     This function takes a string that is Base64 encoded, decodes it from
     Base64, and then decodes the resulting bytes into a UTF-8 string.
     """
-    return b64decode(string).decode('utf-8')
+    return b64decode(string)
 
 
 def update_serial_channel(newsettings):
@@ -140,8 +140,17 @@ def update_serial_message(newsettings):
     port, and writes the updated settings. It logs actions performed and
     manages the organization of messages for a serial channel.
     """
-    newmessages = [{'name': newsettings['name'], 'string1': str_encode(newsettings['string1']),
-                    'string2': str_encode(newsettings['string2']), 'start': int(newsettings['start']),
+    print(newsettings['string1'], newsettings['string2'])
+    try:
+        string1 = literal_eval(newsettings['string1'])
+    except (ValueError, SyntaxError):
+        string1 = literal_eval("b'%s'" %newsettings['string1'])
+    try:
+        string2 = literal_eval(newsettings['string2'])
+    except (ValueError, SyntaxError):
+        string2 = literal_eval("b'%s'" %newsettings['string2'])
+    newmessages = [{'name': newsettings['name'], 'string1': str_encode(string1),
+                    'string2': str_encode(string2), 'start': int(newsettings['start']),
                     'length': int(newsettings['length']), 'api-command': friendlyname(newsettings['api-command'])}]
     for conn in settings['serial_channels']:
         if conn['port'] == newsettings['port']:

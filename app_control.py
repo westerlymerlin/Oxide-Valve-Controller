@@ -26,7 +26,7 @@ import json
 from base64 import b64decode, b64encode
 from datetime import datetime
 
-VERSION = '1.4.1'
+VERSION = '1.4.2'
 API_KEY=''
 
 def initialise():
@@ -54,112 +54,144 @@ def initialise():
                          'gpio': 23,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '2': {
                          'name': 'Ar tank pipette input',
                          'gpio': 22,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '3'
+                         'excluded': '3',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '3': {
                          'name': 'Ar tank pipette output',
                          'gpio': 27,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '2'
+                         'excluded': '2',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '4': {
                          'name': 'Ne tank pipette input',
                          'gpio': 18,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '5'
+                         'excluded': '5',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '5': {
                          'name': 'Ne tank pipette output',
                          'gpio': 17,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '4'
+                         'excluded': '4',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '6': {
                          'name': '4He Q tank pipette input',
                          'gpio': 13,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '7'
+                         'excluded': '7',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '7': {
                          'name': '4He Q tank pipette output',
                          'gpio': 12,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '6'
+                         'excluded': '6',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '8': {
                          'name': '3He spike tank pipette input',
                          'gpio': 11,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '9'
+                         'excluded': '9',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '9': {
                          'name': '3He spike tank pipette output',
                          'gpio': 9,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '8'
+                         'excluded': '8',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '10': {
                          'name': 'turbo to cryotrap',
                          'gpio': 24,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '11': {
                          'name': 'input to manifold',
                          'gpio': 21,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '12': {
                          'name': 'turbo to manifold',
                          'gpio': 20,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '13': {
                          'name': 'SRS RGA',
                          'gpio': 26,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '14': {
                          'name': 'cold getter',
                          'gpio': 16,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '15': {
                          'name': 'ion pump',
                          'gpio': 19,
                          'direction': 'output',
                          'enabled': True,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      },
                      '16': {
                          'name': 'Not Configured',
                          'gpio': 25,
                          'direction': 'input',
                          'enabled': False,
-                         'excluded': '0'
+                         'excluded': '0',
+                         'pwm': 50,
+                         'frequency': 500
                      }
                  },
                  'analogue_prefix': 'analogue',

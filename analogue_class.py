@@ -105,9 +105,7 @@ def analogue_all_values(item, command, log_error=True):
         if analogue_channels[i]['enabled']:
             chan = AnalogIn(ADC_DEVICE, analogue_channels[i]['pin'])
             voltage = chan.voltage
-        else:
-            voltage = -1
-        values['%s%d' % (settings['analogue_prefix'], i)] = {'value': voltage, '%s' % settings['analogue_prefix']: i,
+            values['%s%d' % (settings['analogue_prefix'], i)] = {'value': voltage, '%s' % settings['analogue_prefix']: i,
                                                              'enabled': analogue_channels[i]['enabled'],
                                                              'name': analogue_channels[i]['name']}
     return {'item': item, 'command': command, 'values': values}

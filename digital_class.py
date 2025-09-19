@@ -23,7 +23,7 @@ Dependencies:
 
 from RPi import GPIO
 from logmanager import logger
-from app_control import settings
+from app_control import settings, writesettings
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -38,7 +38,7 @@ class ChannelObject:
     channel, such as its current state, direction, and description.
     """
 
-    def __init__(self, channel_settings):
+    def __init__(self, channel_settings, channel_id):
         """
         Initializes a new instance of the GPIO configuration class.
 
@@ -47,13 +47,25 @@ class ChannelObject:
         additional descriptive attributes. These parameters define the behavior and
         the state of the GPIO pin.
         """
+        self.digital_id = channel_id
         self.gpio = channel_settings['gpio']
         self.direction = channel_settings['direction']
         self.enabled = channel_settings['enabled']
         self.name = channel_settings['name']
         self.excluded = channel_settings['excluded']
+        try:
+            self.pwm = channel_settings['pwm']
+        except KeyError:
+            self.change_setting('pwm', 0)
+        try:
+            self.frequency = channel_settings['frequency']
+        except KeyError:
+            self.change_setting('frequency', 100)
         if self.direction == 'input':
             GPIO.setup(self.gpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        elif self.direction == 'output pwm':
+            GPIO.setup(self.gpio, GPIO.OUT)
+            self.pwm_value = GPIO.PWM(self.gpio, channel_settings['frequency'])
         else:
             GPIO.setup(self.gpio, GPIO.OUT)
 
@@ -85,14 +97,21 @@ class ChannelObject:
                                    self.name, digital_value(1))
                     return (GPIO.input(self.gpio), 'Cannot set digital channel %s as it is excluded partner is %s'
                             % (self.name, digital_value(1)))
-            GPIO.output(self.gpio, 1)
+            if self.direction == 'output pwm':
+                self.pwm_value.ChangeFrequency(self.frequency)
+                self.pwm_value.start(self.pwm)
+            else:
+                GPIO.output(self.gpio, 1)
         elif value == settings['digital_off_command']:
-            GPIO.output(self.gpio, 0)
+            if self.direction == 'output pwm':
+                self.pwm_value.stop()
+            else:
+                GPIO.output(self.gpio, 0)
         else:
             logger.warning('Invalid value "%s" for digital channel "%s"', value, self.name)
-            return GPIO.input(self.gpio), 'Invalid value %s for digital channel %s' % (value, self.name)
+            return 'Invalid value %s for digital channel %s' % (value, self.name)
         logger.info('Digital Channel "%s" set to "%s"', self.name, value)
-        return GPIO.input(self.gpio), ''
+        return ''
 
     def read(self):
         """
@@ -106,6 +125,41 @@ class ChannelObject:
         :rtype: int or bool
         """
         return GPIO.input(self.gpio)
+
+    def change_setting(self, setting, value):
+        """
+        Updates a specific setting for the current instance and persists the change.
+
+        This method modifies the attribute of the current instance with the provided
+        `setting` and `value`. It also updates the corresponding setting in the global
+        `settings` dictionary, ensuring that the digital channel's configuration is
+        consistently maintained. Finally, the settings are saved via the writesettings()
+        function, and a log entry is created indicating the updated settings.
+        """
+        setattr(self, setting, value)
+        digital_prefix = '%d' % (self.digital_id)
+        settings['digital_channels'][digital_prefix][setting] = value
+        writesettings()
+        logger.info('Digital channel %s setting %s updated', self.name, setting)
+
+    def info(self):
+        """
+        Constructs and returns a dictionary containing detailed information about the
+        current object instance.
+
+        The returned dictionary includes the identifier, name, direction, status of
+        the object (enabled/disabled), and its current value. If the direction is set
+        to 'output pwm', additional fields like pwm and frequency are also included.
+        """
+        dataval= {'%s' % settings['digital_prefix']: self.digital_id,
+                  'name': self.name,
+                  'direction': self.direction,
+                  'enabled': self.enabled,
+                  'value': digital_value(self.read())}
+        if self.direction == 'output pwm':
+            dataval['pwm'] = self.pwm
+            dataval['frequency'] = self.frequency
+        return dataval
 
 
 def check_digital_key(item):
@@ -122,8 +176,9 @@ def check_digital_key(item):
     :return: A boolean indicating whether the given item matches the expected digital key format.
     :rtype: bool
     """
-    for item_id in range(1, 17):
-        if item == '%s%d' % (settings['digital_prefix'], item_id):
+    for item_id in range(16, 0, -1):
+        digital_prefix = '%s%d' % (settings['digital_prefix'], item_id)
+        if item[:len(digital_prefix)] == digital_prefix:
             return True
     return False
 
@@ -158,19 +213,30 @@ def digital_single_channel(item, command):
     state based on the provided command. The function then returns the updated or
     read channel state in a predefined format.
     """
-    channel = int(item[len(settings['digital_prefix']):])
-    if command not in [settings['digital_on_command'], settings['digital_off_command']]:
-        ret_value = digital_channels[channel].read()
-        errorvalue = ''
+    error_message = ''
+    if item[-4:] == '-pwm':
+        channel = int(item[len(settings['digital_prefix']):-4])
+        task = 'pwm'
+    elif item[-10:] == '-frequency':
+        channel = int(item[len(settings['digital_prefix']):-10])
+        task = 'frequency'
     else:
-        ret_value, errorvalue = digital_channels[channel].write(command)
-    if errorvalue != '':
-        return {'item': item, 'command': command, 'exception': errorvalue, 'values':
-            {'%s%d' % (settings['digital_prefix'], channel): {'value': digital_value(ret_value),
-                                                              '%s' % settings['digital_prefix']: channel}}}
-    return {'item': item, 'command': command, 'values': {'%s%d' % (settings['digital_prefix'], channel):
-                                                             {'value': digital_value(ret_value),
-                                                              '%s' % settings['digital_prefix']: channel}}}
+        channel = int(item[len(settings['digital_prefix']):])
+        if command in [settings['digital_on_command'], settings['digital_off_command']]:
+            task= 'write'
+        else:
+            task = 'read'
+    if task in ['pwm', 'frequency']:
+        if digital_channels[channel].direction == 'output pwm':
+            digital_channels[channel].change_setting(task, command)
+        else:
+            error_message = 'Cannot set %s for digital channel %s as it is not an output PWM channel' % (task, item)
+    if task == 'write':
+        error_message = digital_channels[channel].write(command)
+    if error_message != '':
+        return {'item': item, 'command': command, 'exception': error_message, 'values':
+            {'%s%d' % (settings['digital_prefix'], channel): digital_channels[channel].info()}}
+    return {'item': item, 'command': command, 'values': digital_channels[channel].info()}
 
 
 def digital_all_values(item, command):
@@ -188,17 +254,12 @@ def digital_all_values(item, command):
     """
     returned_data = {}
     for item_id in range(1, 17):
-        returned_data['%s%d' % (settings['digital_prefix'], item_id)] = {'%s' % settings['digital_prefix']: item_id,
-                                                                         'name': digital_channels[item_id].name,
-                                                                         'direction': digital_channels[
-                                                                             item_id].direction,
-                                                                         'enabled': digital_channels[item_id].enabled,
-                                                                         'value': digital_value(
-                                                                             digital_channels[item_id].read())}
+        if digital_channels[item_id].enabled:
+            returned_data['%s%d' % (settings['digital_prefix'], item_id)] = digital_channels[item_id].info()
     return {'item': item, 'command': command, 'values': returned_data}
 
 
 # setup digital channels
 digital_channels = {}
 for i in range(1, 17):
-    digital_channels[i] = ChannelObject(settings['digital_channels'][str(i)])
+    digital_channels[i] = ChannelObject(settings['digital_channels'][str(i)], i)

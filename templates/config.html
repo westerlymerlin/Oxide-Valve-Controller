@@ -166,6 +166,8 @@
                     <th class="tabledataleft">Direction</th>
                     <th class="tabledataleft">Excluded</th>
                     <th class="tabledataleft">Enabled</th>
+                    <th class="tabledataleft">PWM Duty Cycle</th>
+                    <th class="tabledataleft">PWM Frequency</th>
                 </tr>
             </thead>
             <tbody>
@@ -175,8 +177,11 @@
                         <td class="tabledataleft">{{settings['digital_prefix']}}{{chl}}</td>
                         <td class="tabledataleft"><input class="gentext" type="text" name="ch{{chl}}-name" value="{{settings['digital_channels']['{0:d}'.format(chl)]['name']}}"></td>
                         <td class="tabledataleft">
-                            <input class="gentext" type="radio" name="ch{{chl}}-direction" value="output" {% if settings['digital_channels']['{0:d}'.format(chl)]['direction'] == "output" %} checked="checked" {% endif %}>Output &nbsp;
-                            <input class="gentext" type="radio" name="ch{{chl}}-direction" value="input" {% if settings['digital_channels']['{0:d}'.format(chl)]['direction'] == "input" %} checked="checked" {% endif %}>Input<br>
+                            <select class="gentext" name="ch{{chl}}-direction">
+                                <option value="input" {% if settings['digital_channels']['{0:d}'.format(chl)]['direction'] == "input" %} selected="selected" {% endif %}>Digital Input</option>
+                                <option value="output" {% if settings['digital_channels']['{0:d}'.format(chl)]['direction'] == "output" %} selected="selected" {% endif %}>Digital Output</option>
+                                <option value="output pwm" {% if settings['digital_channels']['{0:d}'.format(chl)]['direction'] == "output pwm" %} selected="selected" {% endif %}>PWM Output</option>
+                            </select>
                         </td>
                         <td class="tabledataleft">
                             <select class="gentext" name="ch{{chl}}-excluded">
@@ -189,10 +194,19 @@
                             </select>
                         </td>
                         <td class="tabledataleft"><input class="gentext" type="checkbox" name="ch{{chl}}-enabled" {% if settings['digital_channels']['{0:d}'.format(chl)]['enabled'] %} checked="checked" {% endif %}</td>
+                        {% if settings['digital_channels']['{0:d}'.format(chl)]['direction'] == "output pwm" %}
+                        <td class="tabledataleft"><input class="gentext" type="text" name="ch{{chl}}-pwm" value="{{settings['digital_channels']['{0:d}'.format(chl)]['pwm']}}"></td>
+                        <td class="tabledataleft"><input class="gentext" type="text" name="ch{{chl}}-frequency" value="{{settings['digital_channels']['{0:d}'.format(chl)]['frequency']}}"></td>
+                        {% else %}
+                        <input type="hidden" name="ch{{chl}}-pwm" value="{{settings['digital_channels']['{0:d}'.format(chl)]['pwm']}}">
+                        <input type="hidden" name="ch{{chl}}-frequency" value="{{settings['digital_channels']['{0:d}'.format(chl)]['frequency']}}">
+                        <td class="tabledatagrey">&nbsp;</td>
+                        <td class="tabledatagrey">&nbsp;</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     <tr>
-                         <td class="tabledataleft">&nbsp;</td>
+                        <td class="tabledataleft">&nbsp;</td>
                         <td class="tabledataleft"><input type="submit" value="Change Digital"></td>
                     </tr>
 

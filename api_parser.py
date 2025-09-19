@@ -43,11 +43,11 @@ def parsecontrol(item, command):
             return digital_all_values(False, False)
         if item == 'analoguestatus':
             return analogue_all_values(False, False, command)
-        if check_digital_key(item):  # a write command to a digital channel
+        if check_digital_key(item):  # read status of a digital channel
             return digital_single_channel(item, command)
         if item == '%sstatus' % settings['digital_prefix']:
             return digital_all_values(item, command)
-        if check_analogue_key(item):  # a write command to a digital channel
+        if check_analogue_key(item):  # read status of an analogue channel
             return analogue_single_channel(item, command)
         if item == '%sstatus' % settings['analogue_prefix']:
             return analogue_all_values(item, command)
@@ -90,8 +90,8 @@ def parsecontrol(item, command):
         logger.warning('unknown item %s command %s', item, command)
         return {'error': 'unknown api command'}
     except ValueError:
-        logger.error('incorrect json message')
-        return {'error': 'incorrect json message'}
+        logger.error('API Parser incorrect json message, value error')
+        return {'error': 'bad value in json message'}
     except IndexError:
-        logger.error('bad Item')
-        return {'error': 'incorrect json message'}
+        logger.error('API Parser incorrect json message, index error')
+        return {'error': 'Bad index in json message'}
