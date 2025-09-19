@@ -101,7 +101,7 @@
                 <tr>
                     <th class="tabledataleft">Name</th>
                     {% if serial_port['mode'] == 'interactive' %}<th class="tabledataleft">API-Command<span class="redtext"><br>(optional)</span></th>{% endif %}
-                    <th class="tabledataleft">{% if serial_port['mode'] == 'interactive' %}TX String 1{% else %}Search String{% endif %}</th>
+                    <th class="tabledataleft">{% if serial_port['mode'] == 'interactive' %}TX String 1{% else %}Search String{% endif %}<span class="redtext"><br>enclose in b'  ' as this is a binary value</span></th>
                     {% if serial_port['mode'] == 'interactive' %}<th class="tabledataleft">TX String 2<span class="redtext"><br>(optional)</span></th>{% endif %}
                     <th class="tabledataleft">Data Start Position</th>
                     <th class="tabledataleft">Data length</th>
@@ -121,9 +121,9 @@
                         {% else %}
                         <input type="hidden" name="api-command" value="">
                         {% endif %}
-                        <td class="tabledataleft"><textarea autocapitalize="off"  class="gentext" type="text" name="string1">{{message['string1']}}</textarea></td>
+                        <td class="tabledataleft"><input class="gentext" type="text" name="string1" value="{{message['string1']}}"></td>
                         {% if serial_port['mode'] == 'interactive' %}
-                        <td class="tabledataleft"><textarea autocapitalize="off" class="gentext" type="text" name="string2">{{message['string2']}}</textarea></td>
+                        <td class="tabledataleft"><input class="gentext" type="text" name="string2" value="{{message['string2']}}"></td>
                         {% else %}
                         <input type="hidden" name="string2" value="">
                         {% endif %}
@@ -153,9 +153,9 @@
                         {% else %}
                         <input type="hidden" name="api-command" value="">
                         {% endif %}
-                        <td class="tabledataleft"><textarea autocapitalize="off"  class="gentext" type="text" name="string1"></textarea></td>
+                        <td class="tabledataleft"><input class="gentext" type="text" name="string1" value="b''"></td>
                         {% if serial_port['mode'] == 'interactive' %}
-                        <td class="tabledataleft"><textarea autocapitalize="off" class="gentext" type="text" name="string2"></textarea></td>
+                        <td class="tabledataleft"><input class="gentext" type="text" name="string2" value="b''"></td>
                         {% else %}
                         <input type="hidden" name="string2" value="">
                         {% endif %}

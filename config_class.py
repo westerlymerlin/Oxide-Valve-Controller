@@ -290,6 +290,8 @@ def set_digital_settings(newsettings):
             settings['digital_channels']['%d' % i]['enabled'] = True
         else:
             settings['digital_channels']['%d' % i]['enabled'] = False
+        settings['digital_channels']['%d' % i]['pwm'] = newsettings['ch%d-pwm' %i]
+        settings['digital_channels']['%d' % i]['frequency'] = newsettings['ch%d-frequency' %i]
     writesettings()
     logger.info('digital settings updated')
     restart_services()
