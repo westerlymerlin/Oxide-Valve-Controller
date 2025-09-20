@@ -87,7 +87,7 @@ class ChannelObject:
         if not self.enabled:
             logger.warning('Cannot set digital channel "%s" as it is disabled', self.name)
             return '', 'Cannot set digital channel %s as it is disabled' % self.name
-        if self.direction != 'output':
+        if self.direction == 'input':
             logger.warning('Cannot set digital channel "%s" as it is an input channel', self.name)
             return GPIO.input(self.gpio), 'Cannot set digital channel %s as it is an input channel' % self.name
         if value == settings['digital_on_command']:
