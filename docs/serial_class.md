@@ -51,12 +51,9 @@ Usage:
     Channels can be managed through the configuration functions, and data can be
     accessed via the serial_http_data() function or individual channel instances.
 
-
 <a id="serial_class.literal_eval"></a>
 
 ## literal\_eval
-
-=======
 
 <a id="serial_class.sleep"></a>
 
