@@ -292,7 +292,6 @@ class SerialConnection:
             self.port = serial.Serial(self._port, self._baudrate, timeout=1)
             self.port.reset_input_buffer()
             self._portready = True
-            print('Serial Class: %s connected' % self._port)
             logger.info('Serial Class: %s connected', self._port)
             if len(self._listener_messages) > 0:
                 reader_thread = Timer(1, self.listener_timer)
@@ -343,7 +342,7 @@ class SerialConnection:
                     databack = str(self.port.read(size=self._readbuffer), 'utf-8')
                     for item in self._listener_messages:
                         name = item['name']
-                        findstring = str_decode(item['string1'])
+                        findstring = str_decode(item['string1']).decode('utf-8')
                         length = item['length']
                         position = databack.find(findstring)
                         if position > -1:
