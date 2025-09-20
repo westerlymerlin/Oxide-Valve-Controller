@@ -136,6 +136,10 @@ class ChannelObject:
         consistently maintained. Finally, the settings are saved via the writesettings()
         function, and a log entry is created indicating the updated settings.
         """
+        if setting in['pwm', 'frequency']:
+            value = float(value)
+        if setting in ['GPIO']:
+            value = int(value)
         setattr(self, setting, value)
         digital_prefix = '%d' % (self.digital_id)
         settings['digital_channels'][digital_prefix][setting] = value
