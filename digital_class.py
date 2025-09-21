@@ -52,6 +52,7 @@ class ChannelObject:
         self.direction = channel_settings['direction']
         self.enabled = channel_settings['enabled']
         self.name = channel_settings['name']
+        self._running = 0  # used for PWM
         self.excluded = channel_settings['excluded']
         try:
             self.pwm = channel_settings['pwm']
@@ -65,7 +66,7 @@ class ChannelObject:
             GPIO.setup(self.gpio, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         elif self.direction == 'output pwm':
             GPIO.setup(self.gpio, GPIO.OUT)
-            self.pwm_value = GPIO.PWM(self.gpio, channel_settings['frequency'])
+            self.gpio_pwm = GPIO.PWM(self.gpio, channel_settings['frequency'])
         else:
             GPIO.setup(self.gpio, GPIO.OUT)
 
@@ -98,13 +99,15 @@ class ChannelObject:
                     return (GPIO.input(self.gpio), 'Cannot set digital channel %s as it is excluded partner is %s'
                             % (self.name, digital_value(1)))
             if self.direction == 'output pwm':
-                self.pwm_value.ChangeFrequency(self.frequency)
-                self.pwm_value.start(self.pwm)
+                self.gpio_pwm.ChangeFrequency(self.frequency)
+                self.gpio_pwm.start(self.pwm)
+                self._running = True
             else:
                 GPIO.output(self.gpio, 1)
         elif value == settings['digital_off_command']:
             if self.direction == 'output pwm':
-                self.pwm_value.stop()
+                self.gpio_pwm.stop()
+                self._running = False
             else:
                 GPIO.output(self.gpio, 0)
         else:
@@ -124,6 +127,8 @@ class ChannelObject:
         :return: Logical state of the GPIO pin as returned by the GPIO library
         :rtype: int or bool
         """
+        if self.direction == 'output pwm':
+            return self._running
         return GPIO.input(self.gpio)
 
     def change_setting(self, setting, value):
