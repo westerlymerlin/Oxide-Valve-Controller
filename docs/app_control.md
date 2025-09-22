@@ -44,6 +44,10 @@ Note:
 
 ## datetime
 
+<a id="app_control.custom_settings"></a>
+
+## custom\_settings
+
 <a id="app_control.VERSION"></a>
 
 #### VERSION

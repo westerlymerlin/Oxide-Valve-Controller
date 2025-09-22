@@ -25,6 +25,7 @@ import random
 import json
 from base64 import b64decode, b64encode
 from datetime import datetime
+from custom_settings import custom_settings
 
 VERSION = '1.4.2'
 API_KEY=''
@@ -37,249 +38,61 @@ def initialise():
                  'oled_address': 0x3C,
                  'oled_height': 64,
                  'oled_width': 128,
-                 'app-name': 'Oxide Line Valve Controller',
+                 'app-name': 'TST Controller',
                  'cputemp': '/sys/class/thermal/thermal_zone0/temp',
                  'gunicornpath': './logs/',
-                 'logappname': 'Valve-Controller-Py',
-                 'logfilepath': './logs/valvecontroller.log',
+                 'logappname': 'TST-Control',
+                 'logfilepath': './logs/app.log',
                  'loglevel': 'INFO',
                  'digital_prefix': 'digital',
-                 'digital_on_value': 'open',
-                 'digital_on_command': 'open',
-                 'digital_off_value': 'closed',
-                 'digital_off_command': 'close',
+                 'digital_on_value': '1',
+                 'digital_on_command': '1',
+                 'digital_off_value': '0',
+                 'digital_off_command': '0',
                  'digital_channels': {
-                     '1': {
-                         'name': 'heating cell',
-                         'gpio': 23,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '2': {
-                         'name': 'Ar tank pipette input',
-                         'gpio': 22,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '3',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '3': {
-                         'name': 'Ar tank pipette output',
-                         'gpio': 27,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '2',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '4': {
-                         'name': 'Ne tank pipette input',
-                         'gpio': 18,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '5',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '5': {
-                         'name': 'Ne tank pipette output',
-                         'gpio': 17,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '4',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '6': {
-                         'name': '4He Q tank pipette input',
-                         'gpio': 13,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '7',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '7': {
-                         'name': '4He Q tank pipette output',
-                         'gpio': 12,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '6',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '8': {
-                         'name': '3He spike tank pipette input',
-                         'gpio': 11,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '9',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '9': {
-                         'name': '3He spike tank pipette output',
-                         'gpio': 9,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '8',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '10': {
-                         'name': 'turbo to cryotrap',
-                         'gpio': 24,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '11': {
-                         'name': 'input to manifold',
-                         'gpio': 21,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '12': {
-                         'name': 'turbo to manifold',
-                         'gpio': 20,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '13': {
-                         'name': 'SRS RGA',
-                         'gpio': 26,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '14': {
-                         'name': 'cold getter',
-                         'gpio': 16,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '15': {
-                         'name': 'ion pump',
-                         'gpio': 19,
-                         'direction': 'output',
-                         'enabled': True,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     },
-                     '16': {
-                         'name': 'Not Configured',
-                         'gpio': 25,
-                         'direction': 'input',
-                         'enabled': False,
-                         'excluded': '0',
-                         'pwm': 50,
-                         'frequency': 500
-                     }
-                 },
+                     '1': {'name': 'Digital 1', 'gpio': 26, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '2': {'name': 'Digital 2', 'gpio': 19, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '3': {'name': 'Digital 3', 'gpio': 13, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '4': {'name': 'Digital 4', 'gpio': 11, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '5': {'name': 'Digital 5', 'gpio': 9, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '6': {'name': 'Digital 6', 'gpio': 22, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '7': {'name': 'Digital 7', 'gpio': 27, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '8': {'name': 'Digital 8', 'gpio': 17, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '9': {'name': 'Digital 9', 'gpio': 18, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                           'pwm': 50, 'frequency': 500},
+                     '10': {'name': 'Digital 10', 'gpio': 23, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500},
+                     '11': {'name': 'Digital 11', 'gpio': 24, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500},
+                     '12': {'name': 'Digital 12', 'gpio': 25, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500},
+                     '13': {'name': 'Digital 13', 'gpio': 12, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500},
+                     '14': {'name': 'Digital 14', 'gpio': 16, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500},
+                     '15': {'name': 'Digital 15', 'gpio': 20, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500},
+                     '16': {'name': 'Digital 16', 'gpio': 21, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                            'pwm': 50, 'frequency': 500}},
                  'analogue_prefix': 'analogue',
                  'analogue_installed': False,
                  'analogue_i2c': 0x48,
                  'analogue_channels': {
-                     '1': {
-                         'name': 'Analogue 1',
-                         'pin': 0,
-                         'enabled': False
-                     },
-                     '2': {
-                         'name': 'Analogue 2',
-                         'pin': 1,
-                         'enabled': False
-                     },
-                     '3': {
-                         'name': 'Analogue 3',
-                         'pin': 2,
-                         'enabled': False
-                     },
-                     '4': {
-                         'name': 'Analogue 4',
-                         'pin': 3,
-                         'enabled': False
-                     }
-                 },
-                 'serial_channels': [
-                     {"api-name": "ion-pump",
-                      "baud": 9600,
-                      "mode": "interactive",
-                      "poll_interval": 10,
-                      "port": "/dev/ttyUSB0",
-                      "messages": [
-                             {"api-command": "",
-                              "length": -4,
-                              "name": "Ion Pressure",
-                              "start": 9,
-                              "string1": "fiAwMSAwQiAzMw0=",
-                              "string2": ""
-                              },
-                             {"api-command": "start",
-                              "length": -4,
-                              "name": "start",
-                              "start": 3,
-                              "string1": "fiAwMSAzNyAyQg0=",
-                              "string2": ""
-                              },
-                             {"api-command": "",
-                              "length": -4,
-                              "name": "Ion Status",
-                              "start": 9,
-                              "string1": "fiAwMSAwRCAzNQ0=",
-                              "string2": ""
-                              },
-                             {"api-command": "stop",
-                              "length": -4,
-                              "name": "stop",
-                              "start": 3,
-                              "string1": "fiAwMSAzOCAyQw0=",
-                              "string2": ""
-                              }
-                         ]
-                     },
-                     {"api-name": "turbo-pump",
-                      "baud": 9600,
-                      "mode": "listener",
-                      "poll_interval": 5,
-                      "port": "/dev/ttyUSB1",
-                      "messages": [
-                             {"api-command": "",
-                              "length": 7,
-                              "name": "Turbo Model",
-                              "start": 0,
-                              "string1": "MDAxMTAzNDkwNg==",
-                              "string2": ""
-                              },
-                             {"api-command": "",
-                              "length": 7,
-                              "name": "Turbo Pressure",
-                              "start": 0,
-                              "string1": "MDAxMTA3NDAwNg==",
-                              "string2": ""
-                              }
-                         ],
-                     }
-                 ]
+                     '1': {'name': 'Analogue 1', 'pin': 0, 'enabled': False},
+                     '2': {'name': 'Analogue 2', 'pin': 1, 'enabled': False},
+                     '3': {'name': 'Analogue 3', 'pin': 2, 'enabled': False},
+                     '4': {'name': 'Analogue 4', 'pin': 3, 'enabled': False}},
+                 'serial_channels': []
                  }
+    isettings.update(custom_settings)
     return isettings
 
 
