@@ -24,6 +24,7 @@ from analogue_class import analogue_all_values, check_analogue_key, analogue_sin
 from serial_class import (update_serial_channel, update_serial_message, delete_serial_message,
                           serial_http_data, serial_api_checker, serial_api_parser)
 from logmanager import logger
+from custom_api import custom_api, custom_parser
 
 # pylint: disable=too-many-return-statements
 def parsecontrol(item, command):
@@ -37,6 +38,8 @@ def parsecontrol(item, command):
     with an error message.
     """
     try:
+        if item in custom_api:
+            return custom_parser(item, command)
         if item == 'serialstatus':
             return serial_http_data(False, False)
         if item == 'digitalstatus':
