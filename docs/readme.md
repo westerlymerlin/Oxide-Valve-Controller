@@ -106,6 +106,26 @@ Dependencies:
     app_control: For settings management
     logmanager: For logging configuration changes
 
+[custom_api](./custom_api.md)  
+A module for managing custom API commands and parsing incoming commands.
+
+This module defines a mechanism to handle custom commands that are listed in
+the `custom_api` list. If the commands are unknown or errors are encountered
+during the parsing process, appropriate error logging and responses are
+generated.
+
+[custom_settings](./custom_settings.md)  
+A module for storing and managing configuration or custom settings.
+
+This module provides a dictionary named `custom_settings` that can be
+used to define and store custom configuration or settings. These settings
+can be used across different parts of an application.
+
+Attributes:
+    custom_settings (dict): A dictionary to hold custom configuration
+    settings, which can be set and accessed dynamically within the
+    application.
+
 [digital_class](./digital_class.md)  
 Raspberry Pi GPIO Digital I/O Control Module
 
