@@ -264,7 +264,8 @@ class SerialConnection:
             self._readbuffer = 256
         else:
             self._readbuffer = 1024
-        self._poll_interval = device['poll_interval']
+        self._default_poll_interval = device['poll_interval']
+        self._poll_interval =  self._default_poll_interval
         self._listener_messages = []
         self._api_messages = []
         self._listener_values = []
@@ -292,6 +293,7 @@ class SerialConnection:
             self.port = serial.Serial(self._port, self._baudrate, timeout=1)
             self.port.reset_input_buffer()
             self._portready = True
+            print('Serial Class: %s connected' % self._port)
             logger.info('Serial Class: %s connected', self._port)
             if len(self._listener_messages) > 0:
                 reader_thread = Timer(1, self.listener_timer)
@@ -362,7 +364,10 @@ class SerialConnection:
             except serial.SerialException :
                 self._active = False
                 logger.exception('Serial Class: Listener Read Error on %s: %s', self._port, Exception)
-            sleep(self._poll_interval)
+            sleep_counter = 0
+            while sleep_counter < self._poll_interval:
+                sleep_counter += 1
+                sleep(1)
 
     def api_command(self, item, command):
         """
@@ -398,6 +403,16 @@ class SerialConnection:
         in the class.
         """
         return self._listener_values
+
+    def change_poll_interval(self, value):
+        """
+        Updates the poll interval to the specified value. Entering 0 returns to the default value
+        """
+        if value > 0:
+            self._poll_interval = value
+        else:
+            self._poll_interval = self._default_poll_interval
+
 
 
 def serial_http_data(item, command):
@@ -451,4 +466,5 @@ def serial_api_checker(item):
 
 if __name__ == '__main__':
     sleep(1)
+    print(serial_channels)
     print(serial_http_data(False, False))

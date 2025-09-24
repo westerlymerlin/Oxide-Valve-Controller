@@ -315,6 +315,16 @@ Retrieves the current listener values.
 This method provides access to the internal state of listener values used
 in the class.
 
+<a id="serial_class.SerialConnection.change_poll_interval"></a>
+
+#### change\_poll\_interval
+
+```python
+def change_poll_interval(value)
+```
+
+Updates the poll interval to the specified value. Entering 0 returns to the default value
+
 <a id="serial_class.serial_http_data"></a>
 
 #### serial\_http\_data
