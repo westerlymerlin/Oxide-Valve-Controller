@@ -27,7 +27,7 @@ from base64 import b64decode, b64encode
 from datetime import datetime
 from custom_settings import custom_settings
 
-VERSION = '1.4.2'
+VERSION = '1.4.3'
 API_KEY=''
 
 def initialise():
@@ -50,47 +50,48 @@ def initialise():
                  'digital_off_value': '0',
                  'digital_off_command': '0',
                  'digital_channels': {
-                     '1': {'name': 'Digital 1', 'gpio': 26, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '2': {'name': 'Digital 2', 'gpio': 19, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '3': {'name': 'Digital 3', 'gpio': 13, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '4': {'name': 'Digital 4', 'gpio': 11, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '5': {'name': 'Digital 5', 'gpio': 9, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '6': {'name': 'Digital 6', 'gpio': 22, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '7': {'name': 'Digital 7', 'gpio': 27, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '8': {'name': 'Digital 8', 'gpio': 17, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '9': {'name': 'Digital 9', 'gpio': 18, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                           'pwm': 50, 'frequency': 500},
-                     '10': {'name': 'Digital 10', 'gpio': 23, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500},
-                     '11': {'name': 'Digital 11', 'gpio': 24, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500},
-                     '12': {'name': 'Digital 12', 'gpio': 25, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500},
-                     '13': {'name': 'Digital 13', 'gpio': 12, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500},
-                     '14': {'name': 'Digital 14', 'gpio': 16, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500},
-                     '15': {'name': 'Digital 15', 'gpio': 20, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500},
-                     '16': {'name': 'Digital 16', 'gpio': 21, 'direction': 'output', 'enabled': True, 'excluded': '0',
-                            'pwm': 50, 'frequency': 500}},
+                 '1': {'name': 'Digital 1', 'gpio': 26, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '2': {'name': 'Digital 2', 'gpio': 19, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '3': {'name': 'Digital 3', 'gpio': 13, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                       'pwm': 50, 'frequency': 500},
+                 '4': {'name': 'Digital 4', 'gpio': 11, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '5': {'name': 'Digital 5', 'gpio': 9, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '6': {'name': 'Digital 6', 'gpio': 22, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '7': {'name': 'Digital 7', 'gpio': 27, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '8': {'name': 'Digital 8', 'gpio': 17, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '9': {'name': 'Digital 9', 'gpio': 18, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '10': {'name': 'Digital 10', 'gpio': 23, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '11': {'name': 'Digital 11', 'gpio': 24, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '12': {'name': 'Digital 12', 'gpio': 25, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '13': {'name': 'Digital 13', 'gpio': 12, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '14': {'name': 'Digital 14', 'gpio': 16, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '15': {'name': 'Digital 15', 'gpio': 20, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500},
+                 '16': {'name': 'Digital 16', 'gpio': 21, 'direction': 'output', 'enabled': True, 'excluded': '0',
+                        'pwm': 50, 'frequency': 500}},
                  'analogue_prefix': 'analogue',
                  'analogue_installed': False,
                  'analogue_i2c': 0x48,
                  'analogue_channels': {
-                     '1': {'name': 'Analogue 1', 'pin': 0, 'enabled': False},
-                     '2': {'name': 'Analogue 2', 'pin': 1, 'enabled': False},
-                     '3': {'name': 'Analogue 3', 'pin': 2, 'enabled': False},
-                     '4': {'name': 'Analogue 4', 'pin': 3, 'enabled': False}},
-                 'serial_channels': []
+                 '1': {'name': 'Analogue 1', 'pin': 0, 'enabled': False},
+                 '2': {'name': 'Analogue 2', 'pin': 1, 'enabled': False},
+                 '3': {'name': 'Analogue 3', 'pin': 2, 'enabled': False},
+                 '4': {'name': 'Analogue 4', 'pin': 3, 'enabled': False}},
+                 'serial_channels': [],
+                 'serial_debug': False
                  }
     isettings.update(custom_settings)
     return isettings
@@ -132,7 +133,7 @@ def loadsettings():
             print('settings[%s] Not found in json file using default' % item)
             settingschanged = True
     API_KEY = b64decode(settings['api-key']).decode('utf-8')
-    if API_KEY == 'change-me':  # the default value
+    if API_KEY == 'change-me':  # the default value which needs changing
         settings['api-key'] = b64encode(generate_api_key(128).encode('utf-8')).decode('utf-8')
         API_KEY = b64decode(settings['api-key']).decode('utf-8')
         settingschanged = True
