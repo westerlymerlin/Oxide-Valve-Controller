@@ -1,17 +1,23 @@
 # Oxide Valve controller
 
-A Flask-based web application for Raspberry Pi that provides system monitoring, equipment control, and a RESTful API interface for scientific equipment management.
-Based on the **TST Base controller** from TS Technologies.
+Controller for the valves on the Oxide Helium Line, controls 15 24v solenoids and reads a Pfeiffer MT200
+vacuum gauge connected to an RS485 bus and a Digitel SPC ion pump controller via RS232. Based on the **TST Base controller** from TS Technologies.
+
+# TST Base Controller Service
+
+A Flask-based web application for Raspberry Pi that provides system monitoring, equipment control,
+and a RESTful API interface for scientific equipment management.
 
 ## Features
 
 - **Web Interface**: Browser-based dashboard for system monitoring and configuration
 - **RESTfull API**: JSON-based API with authentication for programmatic control
 - **System Monitoring**: Real-time CPU temperature, thread monitoring, and system status
-- **Equipment Control**: Digital and analogue device control via GPIO
+- **Equipment Control**: Digital, analogue and serial device control via GPIO and USB Serial
 - **OLED Display**: Shows system information including network address and software version
 - **Log Management**: Comprehensive logging with web-based log viewers
 - **Configuration Management**: Web-based configuration interface for system settings
+- **Custom api and settings**: Modules that can be customised for specific tasks 
 
 ## Documentation
 - **User Manual**: [manual.pdf](./manual.pdf)
@@ -21,9 +27,9 @@ Based on the **TST Base controller** from TS Technologies.
 
 ### API Endpoints
 
-| Endpoint | Method | Description                             |
-|----------|--------|-----------------------------------------|
-| `/api`   | POST   | Main API endpoint for equipment control |
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api` | POST | Main API endpoint for equipment control |
 
 
 
@@ -57,14 +63,19 @@ The application supports web-based configuration for:
 - OLED display settings
 - Digital device settings
 - Analogue device settings
+- Serial device settings
+- API settings
+- System settings
 - Log levels
 - Application hostname
 
 ### Project Structure
 ``` 
 ├── app.py              # Main Flask application
-├── app_control.py      # Application control logic
+├── app_control.py      # Application control logic and settings
 ├── api_parser.py       # API command parsing
+├── custom_settings.py  # Custom settings overrides
+├── custom_api.py       # Custom API commands
 ├── digital_class.py    # Digital GPIO control
 ├── analogue_class.py   # Analogue device control
 ├── oled_class.py       # OLED display management
@@ -98,7 +109,6 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see [https://www.gnu.org/licenses/](https://www.gnu.org/licenses/).
 
 ## Author
-**Dr Gary Twinn** (TS Technologies)  
+**Dr Gary Twinn**  
 GitHub: [github.com/westerlymerlin](https://github.com/westerlymerlin)
-
 
